@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>354717672345-cb0dj095j4dq0icadn4k564dptg2qmjm.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.354717672345-cb0dj095j4dq0icadn4k564dptg2qmjm</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBtKM_34Y1ty-4DWWtZ0b88dtzmfpeLtzM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>354717672345</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>tw.com.cfd.voxy.messagecenter</string>
+	<key>PROJECT_ID</key>
+	<string>messagecenter-b9d30</string>
+	<key>STORAGE_BUCKET</key>
+	<string>messagecenter-b9d30.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:354717672345:ios:38b8965dd57e648481e908</string>
+</dict>
+</plist>
