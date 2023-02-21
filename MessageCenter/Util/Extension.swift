@@ -34,8 +34,8 @@ extension Data {
         guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
               let data = try? JSONSerialization.data(withJSONObject: object,
                                                      options: [.prettyPrinted]),
-              let encodedString = String(data: data, encoding: .utf8) else { return nil }
-        return encodedString
+              let string = String(data: data, encoding: .utf8) else { return nil }
+        return string
     }
     
     func printSize() {

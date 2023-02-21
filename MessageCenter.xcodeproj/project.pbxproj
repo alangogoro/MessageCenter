@@ -18,11 +18,12 @@
 		CE4A0A9129A35F00009305FA /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A9029A35F00009305FA /* Constant.swift */; };
 		CE4A0A9529A3604E009305FA /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A9429A3604E009305FA /* Networking.swift */; };
 		CE4A0A9729A3613D009305FA /* ApiURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A9629A3613D009305FA /* ApiURL.swift */; };
-		CE4A0A9A29A3639F009305FA /* ReceiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A9929A3639F009305FA /* ReceiveModel.swift */; };
+		CE4A0A9A29A3639F009305FA /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A9929A3639F009305FA /* Login.swift */; };
 		CE4A0A9E29A46BDE009305FA /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = CE4A0A9D29A46BDE009305FA /* .gitignore */; };
 		CE4A0AA929A4CAA1009305FA /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CE4A0AA829A4CAA1009305FA /* FirebaseAnalytics */; };
 		CE4A0AAB29A4CAA1009305FA /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = CE4A0AAA29A4CAA1009305FA /* FirebaseMessaging */; };
 		CE4A0AAD29A5BE9C009305FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4A0AAC29A5BE9C009305FA /* GoogleService-Info.plist */; };
+		CE4A0AA129A4851D009305FA /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0AA029A4851D009305FA /* PostManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,10 +39,11 @@
 		CE4A0A9029A35F00009305FA /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		CE4A0A9429A3604E009305FA /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		CE4A0A9629A3613D009305FA /* ApiURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiURL.swift; sourceTree = "<group>"; };
-		CE4A0A9929A3639F009305FA /* ReceiveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveModel.swift; sourceTree = "<group>"; };
+		CE4A0A9929A3639F009305FA /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		CE4A0A9D29A46BDE009305FA /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		CE4A0AAC29A5BE9C009305FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE4A0AAE29A5C1A4009305FA /* MessageCenter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MessageCenter.entitlements; sourceTree = "<group>"; };
+		CE4A0AA029A4851D009305FA /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +108,7 @@
 		CE4A0A9329A36037009305FA /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				CE4A0A9429A3604E009305FA /* Networking.swift */,
-				CE4A0A9629A3613D009305FA /* ApiURL.swift */,
+				CE4A0A9F29A484F9009305FA /* Network */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -115,9 +116,19 @@
 		CE4A0A9829A3638C009305FA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CE4A0A9929A3639F009305FA /* ReceiveModel.swift */,
+				CE4A0A9929A3639F009305FA /* Login.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		CE4A0A9F29A484F9009305FA /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				CE4A0A9629A3613D009305FA /* ApiURL.swift */,
+				CE4A0AA029A4851D009305FA /* PostManager.swift */,
+				CE4A0A9429A3604E009305FA /* Networking.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,7 +219,8 @@
 				CE4A0A8729A34A91009305FA /* Extension.swift in Sources */,
 				CE4A0A9129A35F00009305FA /* Constant.swift in Sources */,
 				CE4A0A9529A3604E009305FA /* Networking.swift in Sources */,
-				CE4A0A9A29A3639F009305FA /* ReceiveModel.swift in Sources */,
+				CE4A0AA129A4851D009305FA /* PostManager.swift in Sources */,
+				CE4A0A9A29A3639F009305FA /* Login.swift in Sources */,
 				CE4A0A9729A3613D009305FA /* ApiURL.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
