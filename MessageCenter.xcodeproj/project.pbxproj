@@ -21,7 +21,7 @@
 		CE4A0A9529A3604E009305FA /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A9429A3604E009305FA /* Networking.swift */; };
 		CE4A0A9729A3613D009305FA /* ApiURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A9629A3613D009305FA /* ApiURL.swift */; };
 		CE4A0A9A29A3639F009305FA /* ReceiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A9929A3639F009305FA /* ReceiveModel.swift */; };
-		CE4A0A9C29A468B0009305FA /* .gitignore.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE4A0A9B29A468B0009305FA /* .gitignore.xib */; };
+		CE4A0A9E29A46BDE009305FA /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = CE4A0A9D29A46BDE009305FA /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +39,7 @@
 		CE4A0A9429A3604E009305FA /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		CE4A0A9629A3613D009305FA /* ApiURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiURL.swift; sourceTree = "<group>"; };
 		CE4A0A9929A3639F009305FA /* ReceiveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveModel.swift; sourceTree = "<group>"; };
-		CE4A0A9B29A468B0009305FA /* .gitignore.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = .gitignore.xib; sourceTree = "<group>"; };
+		CE4A0A9D29A46BDE009305FA /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				CE043CE029A0D1F300983EA6 /* MessageCenter */,
-				CE4A0A9B29A468B0009305FA /* .gitignore.xib */,
+				CE4A0A9D29A46BDE009305FA /* .gitignore */,
 				CE043CDF29A0D1F300983EA6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -182,8 +182,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE4A0A9E29A46BDE009305FA /* .gitignore in Resources */,
 				CE043CEE29A0D1F400983EA6 /* LaunchScreen.storyboard in Resources */,
-				CE4A0A9C29A468B0009305FA /* .gitignore.xib in Resources */,
 				CE043CEB29A0D1F400983EA6 /* Assets.xcassets in Resources */,
 				CE4A0A8C29A358C2009305FA /* GoogleService-Info.plist in Resources */,
 			);

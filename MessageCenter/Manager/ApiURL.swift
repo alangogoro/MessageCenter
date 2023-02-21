@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-enum ApiURL: String, URLConvertible {
+enum ApiURL: String {
     var path: String {
         get {
             let domain = "http://172.105.228.202/voxy/msg/"
@@ -17,7 +17,9 @@ enum ApiURL: String, URLConvertible {
     }
     // 註冊
     case login = "login.php"
-    
+}
+
+extension ApiURL: URLConvertible {
     func asURL() throws -> URL {
         guard let url = URL(string: self.rawValue) else {
             throw AFError.invalidURL(url: self)
