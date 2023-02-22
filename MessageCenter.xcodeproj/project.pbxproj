@@ -20,10 +20,10 @@
 		CE4A0A9729A3613D009305FA /* ApiURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A9629A3613D009305FA /* ApiURL.swift */; };
 		CE4A0A9A29A3639F009305FA /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A9929A3639F009305FA /* Login.swift */; };
 		CE4A0A9E29A46BDE009305FA /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = CE4A0A9D29A46BDE009305FA /* .gitignore */; };
+		CE4A0AA129A4851D009305FA /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0AA029A4851D009305FA /* PostManager.swift */; };
 		CE4A0AA929A4CAA1009305FA /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CE4A0AA829A4CAA1009305FA /* FirebaseAnalytics */; };
 		CE4A0AAB29A4CAA1009305FA /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = CE4A0AAA29A4CAA1009305FA /* FirebaseMessaging */; };
 		CE4A0AAD29A5BE9C009305FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4A0AAC29A5BE9C009305FA /* GoogleService-Info.plist */; };
-		CE4A0AA129A4851D009305FA /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0AA029A4851D009305FA /* PostManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,9 +41,9 @@
 		CE4A0A9629A3613D009305FA /* ApiURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiURL.swift; sourceTree = "<group>"; };
 		CE4A0A9929A3639F009305FA /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		CE4A0A9D29A46BDE009305FA /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		CE4A0AA029A4851D009305FA /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		CE4A0AAC29A5BE9C009305FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE4A0AAE29A5C1A4009305FA /* MessageCenter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MessageCenter.entitlements; sourceTree = "<group>"; };
-		CE4A0AA029A4851D009305FA /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,13 +80,13 @@
 		CE043CE029A0D1F300983EA6 /* MessageCenter */ = {
 			isa = PBXGroup;
 			children = (
+				CE043CE129A0D1F300983EA6 /* AppDelegate.swift */,
+				CE043CE329A0D1F300983EA6 /* SceneDelegate.swift */,
 				CE4A0AAE29A5C1A4009305FA /* MessageCenter.entitlements */,
 				CE4A0AAC29A5BE9C009305FA /* GoogleService-Info.plist */,
 				CE4A0A9829A3638C009305FA /* Model */,
 				CE4A0A9329A36037009305FA /* Manager */,
 				CE4A0A8829A35719009305FA /* Util */,
-				CE043CE129A0D1F300983EA6 /* AppDelegate.swift */,
-				CE043CE329A0D1F300983EA6 /* SceneDelegate.swift */,
 				CE043CE529A0D1F300983EA6 /* ViewController.swift */,
 				CE043CEA29A0D1F400983EA6 /* Assets.xcassets */,
 				CE043CEC29A0D1F400983EA6 /* LaunchScreen.storyboard */,
@@ -364,6 +364,7 @@
 				DEVELOPMENT_TEAM = 3A8F73CL8Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MessageCenter/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Talk May";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -394,6 +395,7 @@
 				DEVELOPMENT_TEAM = 3A8F73CL8Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MessageCenter/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Talk May";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
