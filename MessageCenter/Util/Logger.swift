@@ -37,6 +37,6 @@ class Logger {
     
     private static func sourceFileName(_ filePath: String) -> String {
         let components = filePath.components(separatedBy: "/")
-        return components.isEmpty ? "" : (components.last ?? "")
+        return components.isEmpty ? "" : components.last!.replacingOccurrences(of: ".swift", with: "")
     }
 }

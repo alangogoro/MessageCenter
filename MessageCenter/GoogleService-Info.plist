@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>354717672345-cb0dj095j4dq0icadn4k564dptg2qmjm.apps.googleusercontent.com</string>
+	<string>354717672345-kj05c193o1k0d8gkl483k34r68od3t5p.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.354717672345-cb0dj095j4dq0icadn4k564dptg2qmjm</string>
+	<string>com.googleusercontent.apps.354717672345-kj05c193o1k0d8gkl483k34r68od3t5p</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBtKM_34Y1ty-4DWWtZ0b88dtzmfpeLtzM</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>tw.com.cfd.voxy.messagecenter</string>
+	<string>tw.com.cfd.Voxy.MessageCenter</string>
 	<key>PROJECT_ID</key>
 	<string>messagecenter-b9d30</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:354717672345:ios:38b8965dd57e648481e908</string>
+	<string>1:354717672345:ios:69c87d9df65dd58e81e908</string>
 </dict>
 </plist>
