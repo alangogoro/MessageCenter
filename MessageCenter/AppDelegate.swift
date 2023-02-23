@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let settings = await UNUserNotificationCenter.current().notificationSettings()
             switch settings.authorizationStatus {
             case .denied, .notDetermined:
-                let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+                let authOptions: UNAuthorizationOptions = [.alert, .sound, .badge]
                 try await UNUserNotificationCenter.current().requestAuthorization(options: authOptions)
             case .authorized:
                 application.registerForRemoteNotifications()
@@ -60,12 +60,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - UNUserNotificationCenterDelegate
 extension AppDelegate: UNUserNotificationCenterDelegate {
     
+    /// Handle foreground push notifications
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         let userInfo = notification.request.content.userInfo
         Messaging.messaging().appDidReceiveMessage(userInfo)
-        if let messageID = userInfo["gcmMessageID"] {
+        if let messageID = userInfo[FCMKeys.messageId] {
             Logger.debug("message ID: \(messageID)")
         }
         
@@ -97,25 +98,32 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         let userInfo = response.notification.request.content.userInfo
         Messaging.messaging().appDidReceiveMessage(userInfo)
-        if let messageID = userInfo["gcmMessageID"] {
-            debugPrint("messageID = \(messageID)")
+        if let messageID = userInfo[FCMKeys.messageId] {
+            debugPrint("message_id = \(messageID)")
         }
         
+        Logger.info("userInfo:", userInfo)
+        
         // Navigate to.. or get Call
+        if let _ = userInfo["custom_key"] as? String {
+            // get string value from notification
+        }
     }
     
+    /// Get the DeviceToken for backend server pushing
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
         #if DEBUG
         Messaging.messaging().subscribe(toTopic: "MC_test") { error in
-            debugPrint("subscribed to MC_test topic")
+            error == nil ? Logger.debug("subscribed to MC_test topic") : nil
         }
+        Logger.info("DeviceToken 2:", Messaging.messaging().fcmToken ?? "N/A")
         #endif
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        Logger.error("Error:", error)
+        Logger.error("Failed register DeviceToken:", error)
     }
     
 }
@@ -130,7 +138,7 @@ extension AppDelegate: MessagingDelegate {
                                         userInfo: tokenDict)
         Messaging.messaging().token { (token, error) in
             if let error = error {
-                print("Error fetching FCM registration token: \(error)")
+                Logger.error("Error fetching FCM registration token: \(error)")
             } else if let token = token {
                 Logger.info("FCM registration token: \(token)")
             }
@@ -148,12 +156,12 @@ extension AppDelegate: MessagingDelegate {
         
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         Messaging.messaging().appDidReceiveMessage(userInfo)
-        if let messageID = userInfo["gcmMessageID"] {
+        if let messageID = userInfo[FCMKeys.messageId] {
             Logger.debug("Message ID: \(messageID)")
         }
-        
+        #if DEBUG
         print(userInfo)
-        
+        #endif
         return .newData
     }
     

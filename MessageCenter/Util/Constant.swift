@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: - UI constants
 var screenWidth: CGFloat {
     return UIScreen.main.bounds.width
 }
@@ -22,4 +23,9 @@ var statusBarHeight: CGFloat {
     } else {
         return UIApplication.shared.statusBarFrame.height
     }
+}
+
+// MARK: - FCM - Firebase Cloud Messaging constant
+struct FCMKeys {
+    static let messageId = "gcm.message_id"
 }
