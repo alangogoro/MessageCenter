@@ -29,7 +29,7 @@ class Networking {
         switch result {
         case .success:
             return try await task.value
-        case .failure(let error):
+        case let .failure(error):
             throw error
         }
     }

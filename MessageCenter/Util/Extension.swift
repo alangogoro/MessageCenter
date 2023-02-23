@@ -7,17 +7,6 @@
 
 import UIKit
 
-// MARK: - UIView Extension
-extension UIView {
-    
-    func addSubview(_ views: UIView...) {
-        for view in views {
-            self.addSubview(view)
-        }
-    }
-    
-}
-
 // MARK: - String Extension
 extension Optional where Wrapped == String {
     
@@ -44,6 +33,45 @@ extension Data {
         bcf.countStyle = .file
         let size = bcf.string(fromByteCount: Int64(self.count))
         print("→ Data formatted size: \(size). bytesCount: \(self.count)")
+    }
+    
+}
+
+// MARK: - UIView Extension
+extension UIView {
+    
+    func addSubview(_ views: UIView...) {
+        for view in views {
+            self.addSubview(view)
+        }
+        
+    }
+    
+}
+
+// MARK: - UIAlertController
+extension UIAlertController {
+    
+    static func samplePresent() {
+        guard let windowScene = UIApplication.shared.windows
+            .first(where: { $0.isKeyWindow })?.windowScene else { return }
+        
+        let alertWindow = UIWindow(windowScene: windowScene)
+        alertWindow.frame = UIScreen.main.bounds
+        alertWindow.backgroundColor = .clear
+        alertWindow.windowLevel = .alert
+        alertWindow.rootViewController = UIViewController()
+        alertWindow.makeKeyAndVisible()
+        
+        let alertController = UIAlertController(title: "Alert", message: nil,
+                                                preferredStyle: .alert)
+        let doneAction = UIAlertAction(title: "Done", style: .default) { action in
+            // retain alertView reference within this handler, then release the window as handler finished
+            _ = alertWindow
+        }
+        alertController.addAction(doneAction)
+        
+        alertWindow.rootViewController?.present(alertController, animated: true)
     }
     
 }
