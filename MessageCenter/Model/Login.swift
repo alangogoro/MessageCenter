@@ -5,7 +5,13 @@
 //  Created by usr on 2023/2/20.
 //
 
-struct LoginReceiveModel: Decodable {
+// MARK: - Login Model
+struct LoginRequest: Encodable {
+    let acc: String
+    let pwd: String
+}
+
+struct LoginResponse: Decodable {
     let status: Bool
     let message: String
     let data: LoginData?

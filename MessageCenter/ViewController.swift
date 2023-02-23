@@ -7,7 +7,6 @@
 
 import UIKit
 import Firebase
-import Alamofire
 
 class ViewController: UIViewController {
 
@@ -15,11 +14,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemTeal
+        setFAUserId("TEST_USER_ID")
         
-        setUserId("TEST_USER_ID")
+        Task {
+            let data = await PostManager.shared.login()
+            Logger.info("name:", data?.name ?? "❌")
+        }
     }
     
-    func setUserId(_ name: String?) {
+    func setFAUserId(_ name: String?) {
         guard !name.isNilOrEmpty else { return }
         FirebaseAnalytics.Analytics.setUserProperty(name, forName: "UserId")
     }
