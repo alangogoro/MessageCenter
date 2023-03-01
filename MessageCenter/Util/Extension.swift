@@ -74,4 +74,30 @@ extension UIAlertController {
         alertWindow.rootViewController?.present(alertController, animated: true)
     }
     
+    static func present(title: String, message: String? = nil,
+                        actionTitle: String? = nil, actionStyle: UIAlertAction.Style = .default,
+                        completion: @escaping (Bool) -> Void) {
+        guard let windowScene = UIApplication.shared.windows
+            .first(where: { $0.isKeyWindow })?.windowScene else { return }
+            
+        let alertWindow = UIWindow(windowScene: windowScene)
+        alertWindow.frame = windowScene.screen.bounds
+        alertWindow.backgroundColor = .clear
+        alertWindow.windowLevel = .alert
+        alertWindow.rootViewController = UIViewController()
+        
+        let alertController = UIAlertController(title: title, message: message,
+                                                preferredStyle: .alert)
+        let action = UIAlertAction(title: actionTitle ?? "確認", style: actionStyle) { action in
+            completion(true)
+        }
+        let cancel = UIAlertAction(title: "取消", style: .cancel) { cancel in
+            completion(false)
+        }
+        alertController.addAction(action)
+        alertController.addAction(cancel)
+        
+        alertWindow.rootViewController?.present(alertController, animated: true)
+    }
+    
 }

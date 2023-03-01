@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  MessageCenter
 //
-//  Created by usr on 2023/2/18.
+//  Created by Alan Taichung on 2023/2/18.
 //
 
 import UIKit
@@ -122,7 +122,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         #endif
     }
     
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    /// Failed getting DeviceToken
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
         Logger.error("Failed register DeviceToken:", error)
     }
     
