@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Firebase
+
 
 class HomeTVC: UIViewController {
     private let viewModel = HomeTVCViewModel()
@@ -15,12 +15,6 @@ class HomeTVC: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemTeal
-        setFAUserId("TEST_USER_ID")
-    }
-    
-    func setFAUserId(_ name: String?) {
-        guard !name.isNilOrEmpty else { return }
-        FirebaseAnalytics.Analytics.setUserProperty(name, forName: "UserId")
     }
     
 }

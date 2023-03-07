@@ -26,8 +26,8 @@ var statusBarHeight: CGFloat {
 }
 
 // MARK: - FCM - Firebase Cloud Messaging constant
-var sessionToken = ""
-var pushToken = ""
+var sessionToken: String?
+var pushToken: String?
 
 struct FCMKeys {
     static let messageId = "gcm.message_id"
@@ -35,6 +35,9 @@ struct FCMKeys {
 
 // MARK: - DeepLink
 struct DeepLink {
+    static let domain = "https://talkmate.page.link"
+    static let appStoreID = "123456789"
+    
     struct Keys {
         static let routeSign = "route_sign"
         static let gender = "gender"

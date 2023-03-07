@@ -27,6 +27,7 @@ struct LoginResponse: Decodable {
         data = try container.decodeIfPresent(LoginData.self, forKey: .data) ?? nil
     }
 }
+
 struct LoginData: Decodable {
     let id: String
     let sessionToken: String
@@ -48,28 +49,40 @@ struct LoginData: Decodable {
 // MARK: - List Model
 struct ListResponse: Decodable {
     let status: Bool
+    #if DEBUG
+    #else
     let message: String
+    #endif
     let data: [ListData]?
     
     enum CodingKeys: CodingKey {
-        case status, message, data
+        #if DEBUG
+        #else
+        case message
+        #endif
+        case status, data
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         status = try container.decodeIfPresent(Bool.self, forKey: .status) ?? false
+        #if DEBUG
+        #else
         message = try container.decodeIfPresent(String.self, forKey: .message) ?? ""
+        #endif
         data = try container.decodeIfPresent([ListData].self, forKey: .data) ?? nil
     }
 }
+
 struct ListData: Decodable {
     let userId: String
-    let name: String?
     let uid: String
+    let name: String?
+    let unread: String?
     let fastToken: String
     
     enum CodingKeys: String, CodingKey {
-        case name, uid
+        case name, uid, unread
         case userId = "user_id"
         case fastToken = "fast_token"
     }
@@ -77,8 +90,9 @@ struct ListData: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         userId = try container.decodeIfPresent(String.self, forKey: .userId) ?? ""
-        name = try container.decodeIfPresent(String.self, forKey: .name) ?? nil
         uid = try container.decodeIfPresent(String.self, forKey: .uid) ?? ""
+        name = try container.decodeIfPresent(String.self, forKey: .name) ?? nil
+        unread = try container.decodeIfPresent(String.self, forKey: .unread) ?? nil
         fastToken = try container.decodeIfPresent(String.self, forKey: .fastToken) ?? ""
     }
 }
