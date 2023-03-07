@@ -24,7 +24,7 @@ struct LoginResponse: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         status = try container.decodeIfPresent(Bool.self, forKey: .status) ?? false
         message = try container.decodeIfPresent(String.self, forKey: .message) ?? ""
-        data = try? container.decodeIfPresent(LoginData.self, forKey: .data) ?? nil
+        data = try container.decodeIfPresent(LoginData.self, forKey: .data) ?? nil
     }
 }
 struct LoginData: Decodable {
@@ -44,3 +44,42 @@ struct LoginData: Decodable {
         name = try container.decodeIfPresent(String.self, forKey: .name) ?? nil
     }
 }
+
+// MARK: - List Model
+struct ListResponse: Decodable {
+    let status: Bool
+    let message: String
+    let data: [ListData]?
+    
+    enum CodingKeys: CodingKey {
+        case status, message, data
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        status = try container.decodeIfPresent(Bool.self, forKey: .status) ?? false
+        message = try container.decodeIfPresent(String.self, forKey: .message) ?? ""
+        data = try container.decodeIfPresent([ListData].self, forKey: .data) ?? nil
+    }
+}
+struct ListData: Decodable {
+    let userId: String
+    let name: String?
+    let uid: String
+    let fastToken: String
+    
+    enum CodingKeys: String, CodingKey {
+        case name, uid
+        case userId = "user_id"
+        case fastToken = "fast_token"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        userId = try container.decodeIfPresent(String.self, forKey: .userId) ?? ""
+        name = try container.decodeIfPresent(String.self, forKey: .name) ?? nil
+        uid = try container.decodeIfPresent(String.self, forKey: .uid) ?? ""
+        fastToken = try container.decodeIfPresent(String.self, forKey: .fastToken) ?? ""
+    }
+}
+

@@ -28,8 +28,3 @@ extension ApiURL: URLConvertible {
         return url
     }
 }
-
-enum SocketURL: String {
-    case productionSocket = "wss://chat.horofriend88.com:8185"
-    case testSocket = "wss://webrtc-voxy.cfd888.info:8186"
-}

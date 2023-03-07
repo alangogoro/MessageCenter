@@ -26,6 +26,23 @@ var statusBarHeight: CGFloat {
 }
 
 // MARK: - FCM - Firebase Cloud Messaging constant
+var sessionToken = ""
+var pushToken = ""
+
 struct FCMKeys {
     static let messageId = "gcm.message_id"
+}
+
+// MARK: - DeepLink
+struct DeepLink {
+    struct Keys {
+        static let routeSign = "route_sign"
+        static let gender = "gender"
+        static let link = "link"
+    }
+    
+    struct Values {
+        static let route = "18"
+        static let femaleGender = "2"
+    }
 }

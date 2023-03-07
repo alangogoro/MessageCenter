@@ -8,18 +8,14 @@
 import UIKit
 import Firebase
 
-class HomeViewController: UIViewController {
+class HomeTVC: UIViewController {
+    private let viewModel = HomeTVCViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemTeal
         setFAUserId("TEST_USER_ID")
-        
-        Task {
-            let data = await PostManager.shared.login()
-            Logger.info("name:", data?.name ?? "❌")
-        }
     }
     
     func setFAUserId(_ name: String?) {

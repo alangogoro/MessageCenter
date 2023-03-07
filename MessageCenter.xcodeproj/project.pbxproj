@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		CE043CE229A0D1F300983EA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE043CE129A0D1F300983EA6 /* AppDelegate.swift */; };
 		CE043CE429A0D1F300983EA6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE043CE329A0D1F300983EA6 /* SceneDelegate.swift */; };
-		CE043CE629A0D1F300983EA6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE043CE529A0D1F300983EA6 /* HomeViewController.swift */; };
+		CE043CE629A0D1F300983EA6 /* HomeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE043CE529A0D1F300983EA6 /* HomeTVC.swift */; };
 		CE043CEB29A0D1F400983EA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE043CEA29A0D1F400983EA6 /* Assets.xcassets */; };
 		CE043CEE29A0D1F400983EA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE043CEC29A0D1F400983EA6 /* LaunchScreen.storyboard */; };
 		CE4A0A8729A34A91009305FA /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A8629A34A91009305FA /* Extension.swift */; };
@@ -24,6 +24,7 @@
 		CE4A0AA929A4CAA1009305FA /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CE4A0AA829A4CAA1009305FA /* FirebaseAnalytics */; };
 		CE4A0AAB29A4CAA1009305FA /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = CE4A0AAA29A4CAA1009305FA /* FirebaseMessaging */; };
 		CE4A0AAD29A5BE9C009305FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4A0AAC29A5BE9C009305FA /* GoogleService-Info.plist */; };
+		CEA4E5F029B6D6A2008FBBBE /* HomeTVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA4E5EF29B6D6A2008FBBBE /* HomeTVCViewModel.swift */; };
 		CEF7A30729AF037400FBBD65 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF7A30629AF037400FBBD65 /* MainNavigationController.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,7 +32,7 @@
 		CE043CDE29A0D1F300983EA6 /* MessageCenter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessageCenter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE043CE129A0D1F300983EA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE043CE329A0D1F300983EA6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CE043CE529A0D1F300983EA6 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CE043CE529A0D1F300983EA6 /* HomeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTVC.swift; sourceTree = "<group>"; };
 		CE043CEA29A0D1F400983EA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE043CED29A0D1F400983EA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE043CEF29A0D1F400983EA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,6 +46,7 @@
 		CE4A0AA029A4851D009305FA /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		CE4A0AAC29A5BE9C009305FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE4A0AAE29A5C1A4009305FA /* MessageCenter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MessageCenter.entitlements; sourceTree = "<group>"; };
+		CEA4E5EF29B6D6A2008FBBBE /* HomeTVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTVCViewModel.swift; sourceTree = "<group>"; };
 		CEF7A30629AF037400FBBD65 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,7 +90,8 @@
 				CEF7A30829AF041C00FBBD65 /* Base */,
 				CE4A0A9329A36037009305FA /* Manager */,
 				CE4A0A8829A35719009305FA /* Util */,
-				CE043CE529A0D1F300983EA6 /* HomeViewController.swift */,
+				CE043CE529A0D1F300983EA6 /* HomeTVC.swift */,
+				CEA4E5EF29B6D6A2008FBBBE /* HomeTVCViewModel.swift */,
 				CE043CEA29A0D1F400983EA6 /* Assets.xcassets */,
 				CE043CEC29A0D1F400983EA6 /* LaunchScreen.storyboard */,
 				CE043CEF29A0D1F400983EA6 /* Info.plist */,
@@ -224,12 +227,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE4A0A8A29A35733009305FA /* Logger.swift in Sources */,
-				CE043CE629A0D1F300983EA6 /* HomeViewController.swift in Sources */,
+				CE043CE629A0D1F300983EA6 /* HomeTVC.swift in Sources */,
 				CE043CE229A0D1F300983EA6 /* AppDelegate.swift in Sources */,
 				CEF7A30729AF037400FBBD65 /* MainNavigationController.swift in Sources */,
 				CE043CE429A0D1F300983EA6 /* SceneDelegate.swift in Sources */,
 				CE4A0A8729A34A91009305FA /* Extension.swift in Sources */,
 				CE4A0A9129A35F00009305FA /* Constant.swift in Sources */,
+				CEA4E5F029B6D6A2008FBBBE /* HomeTVCViewModel.swift in Sources */,
 				CE4A0A9529A3604E009305FA /* Networking.swift in Sources */,
 				CE4A0AA129A4851D009305FA /* PostManager.swift in Sources */,
 				CE4A0A9A29A3639F009305FA /* Models.swift in Sources */,

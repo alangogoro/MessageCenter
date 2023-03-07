@@ -20,4 +20,15 @@ class PostManager {
             return nil
         }
     }
+    
+    public func getList() async -> [ListData]? {
+        do {
+            let response = try await Networking.request(from: .getList,
+                                                        receiveModel: ListResponse.self)
+            return response.status ? response.data : nil
+        } catch {
+            Logger.error("GetList error:", error)
+            return nil
+        }
+    }
 }

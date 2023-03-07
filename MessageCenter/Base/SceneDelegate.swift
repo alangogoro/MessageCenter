@@ -53,7 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
         
-        let mainNav = MainNavigationController(rootViewController: HomeViewController())
+        let mainNav = MainNavigationController(rootViewController: HomeTVC())
         mainNav.navigationBar.isHidden = true
         window?.rootViewController = mainNav
         window?.makeKeyAndVisible()
