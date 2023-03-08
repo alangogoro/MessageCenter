@@ -56,6 +56,22 @@ extension UIColor {
     
 }
 
+// MARK: - UserDefaults
+class UserDefaultsHelper {
+    
+    static let defaults = UserDefaults.standard
+        
+    static func set(value: Any, forKey key: String) {
+        defaults.setValue(value, forKey: key)
+        defaults.synchronize()
+    }
+    
+    static func get(forKey key: String) -> Any? {
+        defaults.value(forKey: key)
+    }
+    
+}
+
 extension UIView {
     
     func addSubview(_ views: UIView...) {

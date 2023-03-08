@@ -15,6 +15,10 @@ class HomeTVC: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemTeal
+        
+//        Task {
+//            let logout = await PostManager.shared.logout()
+//        }
     }
     
 }

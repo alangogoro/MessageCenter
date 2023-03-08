@@ -31,7 +31,7 @@ class HomeTVCViewModel {
     private func handleFCMToken(notification: Notification) {
         if let userInfo = notification.userInfo,
            let fcmToken = userInfo["fcmToken"] as? String {
-            pushToken = fcmToken
+            UserDefaultsHelper.set(value: fcmToken, forKey: "push-token")
             self.deviceToken.value = fcmToken
         }
     }
@@ -43,8 +43,8 @@ class HomeTVCViewModel {
                 self.setFAUserName(loginData?.name)
                 
                 if let loginToken = loginData?.sessionToken {
-                    sessionToken = loginToken
-                    Logger.info("session-token:", sessionToken)
+                    UserDefaultsHelper.set(value: loginToken, forKey: "session-token")
+                    Logger.info("session-token:", loginToken)
                     
                     if let userList = await self.getList() {
                         self.userList.value = userList
@@ -56,17 +56,19 @@ class HomeTVCViewModel {
         
         userList.sink { users in
             // TODO: TableView dataSource
-            self.createDeepLink(users)
+            //self.createDeepLink(users)
         }.store(in: &subscriptions)
     }
     
     // MARK: - API
     private func login() async -> LoginData? {
+        let pushToken = UserDefaultsHelper.get(forKey: "push-token") as? String
         guard !pushToken.isNilOrEmpty else { return nil }
         return await PostManager.shared.login(with: "aaaa", password: "bbbb")
     }
     
     private func getList() async -> [ListData]? {
+        let sessionToken = UserDefaultsHelper.get(forKey: "session-token") as? String
         guard !sessionToken.isNilOrEmpty else { return nil }
         return await PostManager.shared.getList()
     }
@@ -93,7 +95,7 @@ class HomeTVCViewModel {
         linkBuilder.iOSParameters = DynamicLinkIOSParameters(bundleID: DeepLink.bundleID)
         linkBuilder.iOSParameters?.appStoreID = DeepLink.appStoreID
         guard let longURL = linkBuilder.url else { return }
-        Logger.debug("⭐️ long link:\t", longURL.absoluteString)
+        Logger.debug("⭐️ long link:", longURL.absoluteString)
         DispatchQueue.main.async {
             if UIApplication.shared.canOpenURL(longURL) {
                 UIApplication.shared.open(longURL, options: [:])
@@ -112,7 +114,7 @@ class HomeTVCViewModel {
         "&link=\(fastToken)"
         let dynamicLink_debug = dynamicLink + "&d=1"
         debugPrint("Debug dynamic = ", dynamicLink_debug)
-        Logger.debug("⭐️ dynamic link:\t", dynamicLink)
+        Logger.debug("⭐️ dynamic link:", dynamicLink)
         DispatchQueue.main.async {
             //if let url = URL(string: dynamicLink), UIApplication.shared.canOpenURL(url) {
             //    UIApplication.shared.open(url, options: [:])

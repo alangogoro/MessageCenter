@@ -25,10 +25,6 @@ var statusBarHeight: CGFloat {
     }
 }
 
-// MARK: - FCM - Firebase Cloud Messaging constant
-var sessionToken: String?
-var pushToken: String?
-
 struct FCMKeys {
     static let messageId = "gcm.message_id"
 }
