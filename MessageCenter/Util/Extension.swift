@@ -39,6 +39,11 @@ extension Data {
 
 // MARK: - UIView Extension
 extension UIColor {
+    static let purple = UIColor(105, 40, 187)
+    static let peachy = UIColor(255, 20, 116)
+    static let darkBlack = UIColor(6, 6, 6)
+    static let toolGray = UIColor(61, 61, 61)
+    static let notice = UIColor(179, 179, 179)
     
     convenience init(_ r : CGFloat, _ g : CGFloat, _ b : CGFloat) {
         let red = r / 255.0
@@ -159,9 +164,9 @@ extension UIView {
                bottom: view.bottomAnchor, right: view.rightAnchor)
     }
     
-    func setDimensionsEqualToAnotherItem(width: NSLayoutDimension? = nil, height: NSLayoutDimension? = nil,
-                                         widthMultiplier: CGFloat = 1.0, heightMultiplier: CGFloat = 1.0,
-                                         widthConstant: CGFloat = 1.0, heightConstant: CGFloat = 1.0) {
+    func setDimensionsEqualTo(width: NSLayoutDimension? = nil, height: NSLayoutDimension? = nil,
+                              widthMultiplier: CGFloat = 1.0, heightMultiplier: CGFloat = 1.0,
+                              widthConstant: CGFloat = 1.0, heightConstant: CGFloat = 1.0) {
         translatesAutoresizingMaskIntoConstraints = false
         if let width = width {
             widthAnchor.constraint(equalTo: width, multiplier: widthMultiplier, constant: widthConstant).isActive = true
