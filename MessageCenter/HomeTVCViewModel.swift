@@ -55,6 +55,7 @@ class HomeTVCViewModel {
         }.store(in: &subscriptions)
         
         userList.sink { users in
+            // TODO: TableView dataSource
             self.createDeepLink(users)
         }.store(in: &subscriptions)
     }
@@ -75,8 +76,7 @@ class HomeTVCViewModel {
         // https://msgcntr.page.link/29hQ
         var components = URLComponents()
         components.scheme = "https"
-//        components.host = "talkmate.page.link"
-        components.host = "talkmate.tw"
+        components.host = "talkmate.page.link"
         components.path = "/"
         
         let routeSignItem = URLQueryItem(name: DeepLink.Keys.routeSign, value: DeepLink.Values.route)
@@ -86,17 +86,39 @@ class HomeTVCViewModel {
         let debugItem     = URLQueryItem(name: "d", value: "1")
         components.queryItems = [routeSignItem, genderItem, linkItem, debugItem]
         guard let link = components.url else { return }
-        Logger.debug("link =", link.absoluteString)
         
         guard let linkBuilder = DynamicLinkComponents.init(link: link,
                                                            domainURIPrefix: DeepLink.domain) else { return }
-        if let bundleID = Bundle.main.bundleIdentifier {
-            linkBuilder.iOSParameters = DynamicLinkIOSParameters(bundleID: bundleID)
-        }
+        //if let bundleID = Bundle.main.bundleIdentifier { ..
+        linkBuilder.iOSParameters = DynamicLinkIOSParameters(bundleID: DeepLink.bundleID)
         linkBuilder.iOSParameters?.appStoreID = DeepLink.appStoreID
         guard let longURL = linkBuilder.url else { return }
-        Logger.debug("long =", longURL.absoluteString)
+        Logger.debug("⭐️ long link:\t", longURL.absoluteString)
+        DispatchQueue.main.async {
+            if UIApplication.shared.canOpenURL(longURL) {
+                UIApplication.shared.open(longURL, options: [:])
+            }
+        }
         
+        // ===== Manually construct =====
+        let deep_link = "https://talkmate.page.link/"
+        let ios_bundle_id = DeepLink.bundleID
+        let app_store_id  = DeepLink.appStoreID
+        let dynamicLink   = "https://talkmate.page.link/?link=" + deep_link +
+        "&ibi=" + ios_bundle_id +
+        "&isi=\(app_store_id)" +
+        "&route_sign=\(DeepLink.Values.route)" +
+        "&gender=\(DeepLink.Values.femaleGender)" +
+        "&link=\(fastToken)"
+        let dynamicLink_debug = dynamicLink + "&d=1"
+        debugPrint("Debug dynamic = ", dynamicLink_debug)
+        Logger.debug("⭐️ dynamic link:\t", dynamicLink)
+        DispatchQueue.main.async {
+            //if let url = URL(string: dynamicLink), UIApplication.shared.canOpenURL(url) {
+            //    UIApplication.shared.open(url, options: [:])
+            //}
+        }
+        /*
         linkBuilder.shorten { (url, warnings, error) in
             if let error = error {
                 print("🔴 Oh no! Got an error! \(error)")
@@ -108,16 +130,13 @@ class HomeTVCViewModel {
                 }
             }
             guard let shortURL = url else { return }
-            print("I have a short url to share! \(shortURL.absoluteString)")
+            print("⭐️short link: \(shortURL.absoluteString)")
             
             if UIApplication.shared.canOpenURL(shortURL) {
-                UIApplication.shared.open(shortURL, options: [:], completionHandler: nil)
+                UIApplication.shared.open(shortURL, options: [:])
             }
         }
-        
-        /* if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } */
+         */
     }
     
     

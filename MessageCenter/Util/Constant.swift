@@ -36,7 +36,8 @@ struct FCMKeys {
 // MARK: - DeepLink
 struct DeepLink {
     static let domain = "https://talkmate.page.link"
-    static let appStoreID = "123456789"
+    static let appStoreID = "1563126232"
+    static let bundleID = "tw.com.cfd.Voxy"
     
     struct Keys {
         static let routeSign = "route_sign"
