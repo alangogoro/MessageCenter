@@ -9,14 +9,25 @@ class PostManager {
     static let shared = PostManager()
     
     // MARK: - Login
-    public func login() async -> LoginData? {
-        let login = LoginRequest(acc: "aaaa", pwd: "bbbb")
+    public func login(with account: String, password: String) async -> LoginData? {
+        let login = LoginRequest(acc: account, pwd: password)
         do {
             let response = try await Networking.request(from: .login, parameter: login,
                                                         receiveModel: LoginResponse.self)
             return response.status ? response.data : nil
         } catch {
             Logger.error("Login error:", error)
+            return nil
+        }
+    }
+    
+    public func getList() async -> [ListData]? {
+        do {
+            let response = try await Networking.request(from: .getList,
+                                                        receiveModel: ListResponse.self)
+            return response.status ? response.data : nil
+        } catch {
+            Logger.error("GetList error:", error)
             return nil
         }
     }

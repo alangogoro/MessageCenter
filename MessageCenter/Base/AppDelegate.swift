@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  MessageCenter
 //
-//  Created by usr on 2023/2/18.
+//  Created by Alan Taichung on 2023/2/18.
 //
 
 import UIKit
@@ -13,7 +13,7 @@ import FirebaseMessaging
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    
+    public var deviceToken: String?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -114,15 +114,18 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
+        self.deviceToken = Messaging.messaging().fcmToken
         #if DEBUG
-        Messaging.messaging().subscribe(toTopic: "MC_test") { error in
-            error == nil ? Logger.debug("subscribed to MC_test topic") : nil
+        Messaging.messaging().subscribe(toTopic: "MGC_test") { error in
+            error == nil ? Logger.debug("subscribed to MGC_test topic") : nil
         }
-        Logger.info("DeviceToken 2:", Messaging.messaging().fcmToken ?? "N/A")
+        Logger.info("DeviceToken:", Messaging.messaging().fcmToken ?? "N/A")
         #endif
     }
     
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    /// Failed getting DeviceToken
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
         Logger.error("Failed register DeviceToken:", error)
     }
     
@@ -132,8 +135,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 extension AppDelegate: MessagingDelegate {
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        let tokenDict = ["token": fcmToken ?? ""]
-        NotificationCenter.default.post(name: Notification.Name("FCMToken"),
+        let tokenDict = ["fcmToken": fcmToken ?? ""]
+        
+        NotificationCenter.default.post(name: Notification.Name("FCM Token"),
                                         object: nil,
                                         userInfo: tokenDict)
         Messaging.messaging().token { (token, error) in

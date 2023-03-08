@@ -8,14 +8,15 @@
 import Foundation
 import Alamofire
 
+
 class Networking {
     static let shared = Networking()
     
     static func request<T, U>(from url: ApiURL,
-                              parameter: T? = nil, receiveModel: U.Type) async throws -> U where T: Encodable, U: Decodable {
-        let token = #"SESSION_TOKEN"#
+                              parameter: T? = ["": ""], receiveModel: U.Type) async throws -> U where T: Encodable, U: Decodable {
         let headers: HTTPHeaders = [
-            .init(name: "session-token", value: token),
+            .init(name: "session-token", value: sessionToken ?? ""),
+            .init(name: "push-token", value: pushToken ?? ""),
             .accept("application/json")
         ]
         let task = AF.request(url.path,
@@ -29,7 +30,7 @@ class Networking {
         switch result {
         case .success:
             return try await task.value
-        case .failure(let error):
+        case let .failure(error):
             throw error
         }
     }

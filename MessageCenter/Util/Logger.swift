@@ -27,7 +27,7 @@ class Logger {
     }
     
     static func debug(_ messages: Any?..., file: String = #file, function: String = #function, line: Int = #line) {
-        printMessage(messages, state: "🟢 DEBUG", file: file, function: function, line: line)
+        printMessage(messages, state: "🟠 DEBUG", file: file, function: function, line: line)
     }
     
     private static func printMessage(_ messages: Any?..., state: String, file: String, function: String, line: Int) {

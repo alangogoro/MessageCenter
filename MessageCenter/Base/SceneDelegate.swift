@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  MessageCenter
 //
-//  Created by usr on 2023/2/18.
+//  Created by Alan Taichung on 2023/2/18.
 //
 
 import UIKit
@@ -53,7 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
         
-        let mainNav = UINavigationController(rootViewController: ViewController())
+        let mainNav = MainNavigationController(rootViewController: HomeTVC())
         mainNav.navigationBar.isHidden = true
         window?.rootViewController = mainNav
         window?.makeKeyAndVisible()
