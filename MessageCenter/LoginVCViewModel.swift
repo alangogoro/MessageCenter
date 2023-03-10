@@ -6,6 +6,7 @@
 //
 
 class LoginVCViewModel {
+    public let maxTextCount = 50
     private let postManager: PostManager
     
     init(post: PostManager) {
@@ -19,6 +20,12 @@ class LoginVCViewModel {
             UserDefaultsHelper.set(value: sessionToken, forKey: .sessionToken)
         }
         return data != nil
+    }
+    
+    public func checkInputs(_ string1: String?, _ string2: String?) -> Bool {
+        // TODO: 待處理驗證
+        guard let string1, let string2 else { return false }
+        return string1.count >= 4 && string2.count >= 4
     }
     
 }

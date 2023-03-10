@@ -64,7 +64,7 @@ struct ListResponse: Decodable {
     }
 }
 
-struct ListData: Decodable, Hashable {
+struct ListData: Decodable {
     /// 淘妹用戶ID
     let userId: String
     /// 用戶UID
@@ -96,14 +96,6 @@ struct ListData: Decodable, Hashable {
         fastToken = try container.decodeIfPresent(String.self, forKey: .fastToken) ?? ""
         canLogin = try container.decodeIfPresent(String.self, forKey: .canLogin) ?? nil
         lastInfo = try container.decodeIfPresent(LastChatData.self, forKey: .lastInfo) ?? nil
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(uid)
-    }
-    
-    static func == (lhs: ListData, rhs: ListData) -> Bool {
-        return lhs.uid == rhs.uid
     }
 }
 

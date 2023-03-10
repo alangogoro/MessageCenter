@@ -10,12 +10,14 @@ import Kingfisher
 
 protocol AccountListTVCellDlegate {
     func didSelectAccount(_ cell: UserListTVCell, account: ListData)
+    func didSelectToExpand(_ cell: UserListTVCell, indexPath: IndexPath, isOpened: Bool)
 }
 
 class UserListTVCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "UserListTVCell"
     private lazy var background = UIView()
+    private lazy var rectBackground = UIView()
     private lazy var accountImage = UIImageView()
     private lazy var accountNameLabel = UILabel()
     private lazy var unreadView = UIView()
@@ -25,6 +27,9 @@ class UserListTVCell: UITableViewCell {
     private lazy var loginButton = UIButton()
     private lazy var arrowIcon = UIImageView()
     private lazy var arrowButton = UIButton()
+    
+    public var indexPath = IndexPath()
+    private var isOpened = false
     
     private var account: ListData?
     
@@ -46,21 +51,29 @@ class UserListTVCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         accountImage.image = nil
+        accountNameLabel.text = nil
         unreadView.isHidden = true
-        arrowButton.imageView?.image = #imageLiteral(resourceName: "white_arrow_down_icon")
+        arrowIcon.image = #imageLiteral(resourceName: "white_arrow_down_icon")
+        rectBackground.isHidden = true
     }
     
     // MARK: - Selector
     @objc
     private func loginAction() {
-        print("⭐️ListCell -> \(#function)")
+        print("⭐️ ListCell -> \(#function)")
         guard let account else { return }
+        #if DEBUG
+        #else
         delegate?.didSelectAccount(self, account: account)
+        #endif
     }
     
     @objc
     private func arrowAction() {
-        print("⭐️ListCell -> \(#function)")
+        print("⭐️ ListCell -> \(#function)")
+        isOpened.toggle()
+        updateCollapseUI(isOpened)
+        delegate?.didSelectToExpand(self, indexPath: indexPath, isOpened: isOpened)
     }
     
     // MARK: - Configure
@@ -70,7 +83,7 @@ class UserListTVCell: UITableViewCell {
         background.clipsToBounds = true
         background.layer.cornerRadius = screenWidth * (10/375)
         background.snp.makeConstraints {
-            $0.top.bottom.equalTo(contentView).inset(screenWidth * (8/375))
+            $0.top.bottom.equalTo(contentView)
             $0.left.right.equalTo(contentView)
         }
         
@@ -84,7 +97,6 @@ class UserListTVCell: UITableViewCell {
         }
         
         background.addSubview(arrowIcon)
-        arrowIcon.image = #imageLiteral(resourceName: "white_arrow_down_icon")
         arrowIcon.contentMode = .scaleAspectFit
         arrowIcon.snp.makeConstraints {
             $0.right.equalTo(background).inset(screenWidth * (24/375))
@@ -157,9 +169,24 @@ class UserListTVCell: UITableViewCell {
             $0.right.lessThanOrEqualTo(unreadView.snp.left).offset(screenWidth * (12/375))
             $0.centerY.equalTo(accountImage)
         }
+        
+        contentView.addSubview(rectBackground)
+        contentView.sendSubviewToBack(rectBackground)
+        rectBackground.isHidden = true
+        rectBackground.backgroundColor = .backgroundGray
+        rectBackground.snp.makeConstraints {
+            $0.bottom.equalTo(background)
+            $0.left.right.equalTo(background)
+            $0.height.equalTo(screenWidth * (10/375))
+        }
     }
     
-    public func configure(with account: ListData) {
+    fileprivate func updateCollapseUI(_ isOpened: Bool) {
+        arrowIcon.image = isOpened ? #imageLiteral(resourceName: "white_arrow_up_icon") : #imageLiteral(resourceName: "white_arrow_down_icon")
+        rectBackground.isHidden = !isOpened
+    }
+    
+    public func configure(with account: ListData, isOpen: Bool) {
         guard let profilePic = account.profilePic,
               let accountName = account.name else { return }
         self.account = account
@@ -184,8 +211,10 @@ class UserListTVCell: UITableViewCell {
         } else {
             loginView.backgroundColor = .toolGray
             loginLabel.textColor = .white
-            loginLabel.text = "使用中"
+            loginLabel.text = "登入中"
         }
+        
+        updateCollapseUI(isOpen)
     }
     
 }
