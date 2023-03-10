@@ -10,8 +10,10 @@ import SnapKit
 import Combine
 
 class MainListTVC: UIViewController {
-    enum Section {
-        case first
+    struct Section {
+        let data: ListData
+        let lastChat: LastChatData?
+        var isOpend: Bool = false
     }
     
     // MARK: - Properties
@@ -24,7 +26,10 @@ class MainListTVC: UIViewController {
     private lazy var refreshRedDot = UIView()
     private lazy var refreshLabel = UILabel()
     private lazy var refreshButton = UIButton()
-    private lazy var tableView: UITableView = {
+    private var refreshControl = UIRefreshControl()
+    private lazy var tableHeader = UIView()
+    private lazy var tableHeaderLabel = UILabel()
+    internal lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
         tableView.estimatedRowHeight = 44
@@ -38,9 +43,10 @@ class MainListTVC: UIViewController {
         tableView.separatorStyle = .none
         return tableView
     }()
-    var dataSource: UITableViewDiffableDataSource<Section, ListData>!
+    private lazy var errorView = NoResultView()
     
-    private lazy var viewModel = MainListViewModel(post: postManager)
+    internal lazy var viewModel = MainListViewModel(post: postManager)
+    internal var sections = [Section]()
     private let postManager = PostManager.shared
     private var subscriptions = Set<AnyCancellable>()
     
@@ -49,14 +55,18 @@ class MainListTVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setupCombine()
+        setupListCombine()
         viewModel.getUserList()
+        addNewMessageObserver()
     }
     
     // MARK: - Selectors
+    @objc private func handleNewMessage() {
+        refreshRedDot.isHidden = false
+    }
+    
     @objc
     private func logoutAction() {
-        print("⭐️ MainList -> \(#function)")
         UIAlertController.presentAlert(title: "確定要登出嗎？",
                                        actionStyle: .destructive) { confirm in
             if confirm {
@@ -68,12 +78,6 @@ class MainListTVC: UIViewController {
                         Task.detached { @MainActor in
                             self.navigationController?.popToRootViewController(animated: true)
                         }
-                        /* rebuild a new navigation
-                         guard let keyWindow = UIApplication.shared.windows
-                         .first(where: { $0.isKeyWindow }) else { return }
-                         let mainNav = MainNavigationController(rootViewController: LoginVC())
-                         keyWindow.rootViewController = mainNav
-                         */
                     }
                 }
             }
@@ -82,9 +86,27 @@ class MainListTVC: UIViewController {
     
     @objc
     private func refreshAction() {
-        print("⭐️ MainList -> \(#function)")
+        refreshRedDot.isHidden = true
+        refreshButton.isEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [refreshButton] in
+            refreshButton.isEnabled = true
+        }
+        
+        viewModel.getUserList()
+        
+        if !refreshControl.isRefreshing {
+            refreshControl.beginRefreshing()
+        }
+        UIView.animate(withDuration: 1, delay: 0,
+                       usingSpringWithDamping: 0.7, initialSpringVelocity: 1,
+                       options: .curveEaseIn) {
+            self.tableView.contentOffset = CGPoint(x: 0, y: -self.refreshControl.bounds.height)
+        } completion: { [weak self] finish in
+            self?.refreshControl.endRefreshing()
+        }
     }
     
+    // MARK: - Configuration
     private func configureUI() {
         view.backgroundColor = .darkBlack
         
@@ -104,10 +126,11 @@ class MainListTVC: UIViewController {
         }
         
         toolBackground.addSubview(titleLabel)
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.font = .boldSystemFont(ofSize: 19)
         titleLabel.textColor = .white
         titleLabel.textAlignment = .center
         titleLabel.text = "訊息管理中心"
+        titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.snp.makeConstraints {
             $0.top.bottom.equalTo(toolBackground)
             $0.center.equalTo(toolBackground)
@@ -173,43 +196,80 @@ class MainListTVC: UIViewController {
         
         view.addSubview(tableView)
         tableView.delegate = self
-        tableView.register(AccountListTVCell.self,
-                           forCellReuseIdentifier: AccountListTVCell.identifier)
+        tableView.dataSource = self
+        tableView.register(UserListTVCell.self,
+                           forCellReuseIdentifier: UserListTVCell.identifier)
+        tableView.register(UserListDetailTVCell.self,
+                           forCellReuseIdentifier: UserListDetailTVCell.identifier)
         tableView.snp.makeConstraints {
             $0.top.equalTo(toolBackground.snp.bottom)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.left.right.equalTo(view).inset(screenWidth * (16/375))
         }
         
-        dataSource = UITableViewDiffableDataSource(tableView: tableView,
-                                                   cellProvider: { [unowned self] (tableView, indexPath, user) in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: AccountListTVCell.identifier,
-                                                           for: indexPath) as? AccountListTVCell else { return nil }
-            cell.configure(with: user)
-            cell.delegate = self
-            return cell
-        })
-        tableView.dataSource = dataSource
+        tableView.addSubview(refreshControl)
+        refreshControl.tintColor = .notice
+        refreshControl.addTarget(self,
+                                 action: #selector(refreshAction), for: .valueChanged)
+        
+        tableHeader = UIView(frame: CGRect(x: 0, y: 0,
+                                           width: tableView.frame.size.width,
+                                           height: screenWidth * (60/375)))
+        tableHeader.backgroundColor = .clear
+        tableView.tableHeaderView = tableHeader
+        
+        tableHeader.addSubview(tableHeaderLabel)
+        tableHeaderLabel.font = .systemFont(ofSize: 21)
+        tableHeaderLabel.textColor = .white
+        tableHeaderLabel.textAlignment = .left
+        tableHeaderLabel.snp.makeConstraints {
+            $0.left.equalTo(tableHeader)
+            $0.bottom.equalTo(tableHeader).inset(screenWidth * (12/375))
+        }
+        
+        configureTableHeaderTitle()
+        
+        view.addSubview(errorView)
+        errorView.isHidden = true
+        errorView.title = "暫無可用帳號"
+        errorView.subTitle = "請嘗試更新或重新登入"
+        errorView.snp.makeConstraints {
+            $0.edges.equalTo(tableView)
+        }
     }
     
-    fileprivate func setupCombine() {
+    fileprivate func configureTableHeaderTitle() {
+        let name = UserDefaultsHelper.get(forKey: .loginName) ?? ""
+        tableHeaderLabel.text = "嗨！\(name) 😉"
+    }
+    
+    // MARK: - Helpers
+    fileprivate func setupListCombine() {        
         viewModel.userList
             .drop(while: { $0.isEmpty })
             .receive(on: DispatchQueue.main)
             .sink { [weak self] users in
-                self?.updateTableView(by: users)
+                guard let self else { return }
+                self.sections = []
+                users.forEach { user in
+                    self.sections.append(Section(data: user, lastChat: user.lastInfo))
+                }
+                self.tableView.reloadData()
+            }.store(in: &subscriptions)
+        
+        viewModel.errorPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [tableView, errorView] error in
+                tableView.isHidden = error
+                errorView.isHidden = !error
             }.store(in: &subscriptions)
     }
     
-    private func updateTableView(by users: [ListData]) {
-        var snapshot = dataSource.snapshot()
-        if snapshot.itemIdentifiers.count > 0 {
-            snapshot.deleteAllItems()
-        }
-        snapshot.appendSections([.first])
-        snapshot.appendItems(users)
-        
-        dataSource.apply(snapshot, animatingDifferences: true)
+    private func addNewMessageObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleNewMessage),
+                                               name: Notification.Name("New message"),
+                                               object: nil)
     }
     
 }

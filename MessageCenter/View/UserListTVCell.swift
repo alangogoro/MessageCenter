@@ -9,13 +9,15 @@ import UIKit
 import Kingfisher
 
 protocol AccountListTVCellDlegate {
-    func didSelectAccount(_ cell: AccountListTVCell, account: ListData)
+    func didSelectAccount(_ cell: UserListTVCell, account: ListData)
+    func didSelectToExpand(_ cell: UserListTVCell, indexPath: IndexPath, isOpened: Bool)
 }
 
-class AccountListTVCell: UITableViewCell {
+class UserListTVCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "UserListTVCell"
     private lazy var background = UIView()
+    private lazy var rectBackground = UIView()
     private lazy var accountImage = UIImageView()
     private lazy var accountNameLabel = UILabel()
     private lazy var unreadView = UIView()
@@ -25,6 +27,9 @@ class AccountListTVCell: UITableViewCell {
     private lazy var loginButton = UIButton()
     private lazy var arrowIcon = UIImageView()
     private lazy var arrowButton = UIButton()
+    
+    public var indexPath = IndexPath()
+    private var isOpened = false
     
     private var account: ListData?
     
@@ -45,20 +50,30 @@ class AccountListTVCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        arrowButton.imageView?.image = #imageLiteral(resourceName: "white_arrow_down_icon")
+        accountImage.image = nil
+        accountNameLabel.text = nil
+        unreadView.isHidden = true
+        arrowIcon.image = #imageLiteral(resourceName: "white_arrow_down_icon")
+        rectBackground.isHidden = true
     }
     
     // MARK: - Selector
     @objc
     private func loginAction() {
-        print("⭐️ListCell -> \(#function)")
+        print("⭐️ ListCell -> \(#function)")
         guard let account else { return }
+        #if DEBUG
+        #else
         delegate?.didSelectAccount(self, account: account)
+        #endif
     }
     
     @objc
     private func arrowAction() {
-        print("⭐️ListCell -> \(#function)")
+        print("⭐️ ListCell -> \(#function)")
+        isOpened.toggle()
+        updateCollapseUI(isOpened)
+        delegate?.didSelectToExpand(self, indexPath: indexPath, isOpened: isOpened)
     }
     
     // MARK: - Configure
@@ -68,7 +83,7 @@ class AccountListTVCell: UITableViewCell {
         background.clipsToBounds = true
         background.layer.cornerRadius = screenWidth * (10/375)
         background.snp.makeConstraints {
-            $0.top.bottom.equalTo(contentView).inset(screenWidth * (8/375))
+            $0.top.bottom.equalTo(contentView)
             $0.left.right.equalTo(contentView)
         }
         
@@ -82,7 +97,6 @@ class AccountListTVCell: UITableViewCell {
         }
         
         background.addSubview(arrowIcon)
-        arrowIcon.image = #imageLiteral(resourceName: "white_arrow_down_icon")
         arrowIcon.contentMode = .scaleAspectFit
         arrowIcon.snp.makeConstraints {
             $0.right.equalTo(background).inset(screenWidth * (24/375))
@@ -106,17 +120,15 @@ class AccountListTVCell: UITableViewCell {
         loginView.snp.makeConstraints {
             $0.right.equalTo(arrowIcon.snp.left).offset(-screenWidth * (12/375))
             $0.centerY.equalTo(background)
-            $0.width.equalTo(screenWidth * (44/375))
             $0.height.equalTo(screenWidth * (20/375))
         }
         
         loginView.addSubview(loginLabel)
         loginLabel.font = .boldSystemFont(ofSize: 13)
         loginLabel.textColor = .backgroundBlack
-        loginLabel.text = "登入"
         loginLabel.snp.makeConstraints {
-            $0.center.equalTo(loginView)
             $0.top.bottom.equalTo(loginView)
+            $0.left.right.equalTo(loginView).inset(screenWidth * (8/375))
         }
         
         contentView.addSubview(loginButton)
@@ -134,9 +146,9 @@ class AccountListTVCell: UITableViewCell {
         unreadView.clipsToBounds = true
         unreadView.layer.cornerRadius = (screenWidth * (20/375)) / 2
         unreadView.snp.makeConstraints {
-            $0.right.equalTo(loginView.snp.left).offset(-screenWidth * (18/375))
+            $0.right.equalTo(loginView.snp.left).offset(-screenWidth * (12/375))
             $0.centerY.equalTo(background)
-            $0.height.equalTo(screenWidth * (20/375))
+            $0.height.greaterThanOrEqualTo(screenWidth * (20/375))
         }
         
         unreadView.addSubview(unreadLabel)
@@ -157,9 +169,24 @@ class AccountListTVCell: UITableViewCell {
             $0.right.lessThanOrEqualTo(unreadView.snp.left).offset(screenWidth * (12/375))
             $0.centerY.equalTo(accountImage)
         }
+        
+        contentView.addSubview(rectBackground)
+        contentView.sendSubviewToBack(rectBackground)
+        rectBackground.isHidden = true
+        rectBackground.backgroundColor = .backgroundGray
+        rectBackground.snp.makeConstraints {
+            $0.bottom.equalTo(background)
+            $0.left.right.equalTo(background)
+            $0.height.equalTo(screenWidth * (10/375))
+        }
     }
     
-    public func configure(with account: ListData) {
+    fileprivate func updateCollapseUI(_ isOpened: Bool) {
+        arrowIcon.image = isOpened ? #imageLiteral(resourceName: "white_arrow_up_icon") : #imageLiteral(resourceName: "white_arrow_down_icon")
+        rectBackground.isHidden = !isOpened
+    }
+    
+    public func configure(with account: ListData, isOpen: Bool) {
         guard let profilePic = account.profilePic,
               let accountName = account.name else { return }
         self.account = account
@@ -167,8 +194,27 @@ class AccountListTVCell: UITableViewCell {
         accountImage.kf.setImage(with: URL(string: profilePic),
                                  placeholder: UIImage(named: "user_no_pic"))
         accountNameLabel.text = accountName
-        // TODO: - unread 等於0時隱藏
-        unreadLabel.text = account.unread
+        
+        if let unread = account.unread,
+           (unread != "") && (unread != "0") {
+            unreadView.isHidden = false
+            unreadLabel.text = unread
+        } else {
+            unreadView.isHidden = true
+        }
+        
+        if let canLogin = account.canLogin,
+           canLogin == "1" {
+            loginView.backgroundColor = .white
+            loginLabel.textColor = .backgroundBlack
+            loginLabel.text = "登入"
+        } else {
+            loginView.backgroundColor = .toolGray
+            loginLabel.textColor = .white
+            loginLabel.text = "登入中"
+        }
+        
+        updateCollapseUI(isOpen)
     }
     
 }

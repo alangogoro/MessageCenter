@@ -14,20 +14,20 @@ class LoginVC: UIViewController {
     private lazy var background = UIImageView()
     private lazy var themeIcon = UIImageView()
     private lazy var descriptionLabel = UILabel()
-    private lazy var InputBackgrounds = Set<UIView>([accountBackground, passwordBackground])
-    private lazy var accountTextField = UITextField()
+    internal lazy var inputBackgrounds = Set<UIView>([accountBackground, passwordBackground])
+    internal lazy var accountTextField = UITextField()
     private lazy var accountBackground = UIView()
-    private lazy var passwordTextField = UITextField()
+    internal lazy var passwordTextField = UITextField()
     private lazy var passwordBackground = UIView()
-    private lazy var loginBackground = GradientView(leftColor: .toolGray, rightColor: .toolGray)
+    internal lazy var loginBackground = GradientView(leftColor: .toolGray, rightColor: .toolGray)
     private lazy var loginLabel = UILabel()
-    private lazy var loginButton = UIButton()
-    private lazy var errorLabel = UILabel()
+    internal lazy var loginButton = UIButton()
+    internal lazy var errorLabel = UILabel()
     
-    private var currentTextField: UITextField?
-    private var rect: CGRect?
+    internal var currentTextField: UITextField?
+    internal var rect: CGRect?
     
-    private lazy var viewModel = LoginVCViewModel(post: postManager)
+    internal lazy var viewModel = LoginVCViewModel(post: postManager)
     private let postManager = PostManager.shared
     
     
@@ -36,46 +36,49 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         configureUI()
         addKeyboardEventObservers()
-        
-        // TODO: Login button 變色 (color func)
-        // TODO: 錯誤 UI 提示 (didSet?)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        accountTextField.text = "aaaa"
-        passwordTextField.text = "bbbb"
-        // loginAction(sender: loginButton)
+        /*accountTextField.text = "aaaa"
+        passwordTextField.text = "bbbb"*/
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Selectors
     @objc
-    private func loginAction(sender: UIButton) {
+    internal func loginAction(sender: UIButton) {
+        view.endEditing(true)
+        
         sender.isEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [sender] in
             sender.isEnabled = true
         }
         
-        guard let account = accountTextField.text, !account.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty else {
-            // TODO: use Alert Helper
+        guard let account = accountTextField.text, !account.isEmpty else {
+            UIAlertController.presentAlert(title: "請輸入帳號",
+                                           cancellable: false, completion: nil)
+            return
+        }
+        guard let password = passwordTextField.text, !password.isEmpty else {
+            UIAlertController.presentAlert(title: "請輸入密碼",
+                                           cancellable: false, completion: nil)
             return
         }
         
         Task {
             let result = await viewModel.login(account: account, password: password)
             if result {
+                restoreUIStatus()
                 self.navigationController?.pushViewController(MainListTVC(), animated: true)
             } else {
-                // wrong
-                InputBackgrounds.forEach { $0.layer.borderColor = UIColor.peachy.cgColor }
-                loginBackground.changeColor(leftColor: .purple, rightColor: .peachy)
+                inputBackgrounds.forEach { $0.layer.borderColor = UIColor.peachy.cgColor }
+                errorLabel.isHidden = false
             }
         }
-    }
-    
-    @objc private func doneButtonAction() {
-        view.endEditing(true)
     }
     
     // MARK: - Configuration
@@ -110,7 +113,7 @@ class LoginVC: UIViewController {
         accountBackground.layer.borderColor = UIColor.toolGray.cgColor
         accountBackground.backgroundColor = .darkBlack
         accountBackground.centerX(inView: view,
-                           topAnchor: descriptionLabel.bottomAnchor, paddingTop: screenWidth * (22/375))
+                                  topAnchor: descriptionLabel.bottomAnchor, paddingTop: screenWidth * (22/375))
         accountBackground.setDimensions(width: screenWidth * (280/375), height: screenWidth * (44/375))
         
         view.addSubview(accountTextField)
@@ -137,7 +140,7 @@ class LoginVC: UIViewController {
         passwordBackground.layer.borderColor = UIColor.toolGray.cgColor
         passwordBackground.backgroundColor = .darkBlack
         passwordBackground.centerX(inView: view,
-                           topAnchor: accountBackground.bottomAnchor, paddingTop: screenWidth * (22/375))
+                                   topAnchor: accountBackground.bottomAnchor, paddingTop: screenWidth * (22/375))
         passwordBackground.setDimensions(width: screenWidth * (280/375), height: screenWidth * (44/375))
         
         view.addSubview(passwordTextField)
@@ -147,8 +150,8 @@ class LoginVC: UIViewController {
         passwordTextField.textColor = .white
         passwordTextField.textAlignment = .center
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "輸入您的密碼",
-                                                                    attributes: [.foregroundColor: UIColor.notice,
-                                                                                 .font: UIFont.systemFont(ofSize: 14)])
+                                                                     attributes: [.foregroundColor: UIColor.notice,
+                                                                                  .font: UIFont.systemFont(ofSize: 14)])
         passwordTextField.keyboardType = .default
         passwordTextField.returnKeyType = .done
         passwordTextField.autocorrectionType = .no
@@ -173,7 +176,7 @@ class LoginVC: UIViewController {
         loginLabel.setDimensionsEqualTo(height: loginBackground.heightAnchor)
         
         view.addSubview(loginButton)
-        loginButton.isEnabled = true
+        loginButton.isEnabled = false
         loginButton.backgroundColor = .clear
         loginButton.addTarget(self,
                               action: #selector(loginAction(sender:)), for: .touchUpInside)
@@ -190,102 +193,4 @@ class LoginVC: UIViewController {
                            topAnchor: loginBackground.bottomAnchor, paddingTop: screenWidth * (16/375))
         errorLabel.setDimensionsEqualTo(width: view.widthAnchor)
     }
-    
-    // MARK: - Keyboard Helpers
-    private func createTextFieldToolBar() -> UIToolbar {
-        let toolbar = UIToolbar()
-        let flexSpace  = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                         target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "完成", style: .done,
-                                         target: self, action: #selector(doneButtonAction))
-                
-        toolbar.setItems([flexSpace, doneButton], animated: true)
-        toolbar.sizeToFit()
-        return toolbar
-    }
-    
-    private func addKeyboardEventObservers() {
-        rect = view.bounds
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
-    }
-    
-    @objc
-    private func keyboardWillShow(note: NSNotification) {
-        if currentTextField == nil {
-            return
-        }
-        guard let userInfo = note.userInfo else { return }
-        let keyboard = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
-        let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
-        let origin = (currentTextField?.frame.origin)!
-        let height = (currentTextField?.frame.size.height)!
-        
-        let targetY = origin.y + height
-        let visibleRectWithoutKeyboard = self.view.bounds.size.height - keyboard.height
-        
-        if targetY >= visibleRectWithoutKeyboard {
-            var rect_ = self.rect!
-            rect_.origin.y -= (targetY - visibleRectWithoutKeyboard) + 15
-        
-            UIView.animate(withDuration: duration,
-                           animations: { () -> Void in
-                self.view.frame = rect_
-            })
-        }
-    }
-    
-    @objc
-    private func keyboardWillHide(note: NSNotification) {
-        if view.frame.origin.y != rect?.origin.y {
-            view.frame.origin.y = CGFloat.zero
-        }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-    }
-    
-}
-
-// MARK: - UITextViewDelegate
-extension LoginVC: UITextFieldDelegate {
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        currentTextField = textField
-    }
-    
-    
-    func textField(_ textField: UITextField,
-                   shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        errorLabel.isHidden = true
-        print("⭐️ Login -> \(#function)",
-              "\ttext =", textField.text?.trimmingCharacters(in: .whitespaces) ?? "N/A")
-        guard (string != " " && string != "#") else { return false }
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        // only called when TextField finished
-        print("⭐️ Login -> \(#function)",
-              "\ttext =", textField.text?.trimmingCharacters(in: .whitespaces) ?? "N/A")
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == accountTextField {
-            passwordTextField.becomeFirstResponder()
-        } else {
-            textField.resignFirstResponder()
-            loginAction(sender: loginButton)
-        }
-        return true
-    }
-    
 }
