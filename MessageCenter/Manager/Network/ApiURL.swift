@@ -17,6 +17,7 @@ enum ApiURL: String {
     }
     // 註冊
     case login = "login.php"
+    case logout = "logout.php"
     case getList = "get_list.php"
 }
 

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		CE043CE229A0D1F300983EA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE043CE129A0D1F300983EA6 /* AppDelegate.swift */; };
 		CE043CE429A0D1F300983EA6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE043CE329A0D1F300983EA6 /* SceneDelegate.swift */; };
-		CE043CE629A0D1F300983EA6 /* HomeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE043CE529A0D1F300983EA6 /* HomeTVC.swift */; };
+		CE043CE629A0D1F300983EA6 /* MainListTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE043CE529A0D1F300983EA6 /* MainListTVC.swift */; };
 		CE043CEB29A0D1F400983EA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE043CEA29A0D1F400983EA6 /* Assets.xcassets */; };
 		CE043CEE29A0D1F400983EA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE043CEC29A0D1F400983EA6 /* LaunchScreen.storyboard */; };
 		CE4A0A8729A34A91009305FA /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A8629A34A91009305FA /* Extension.swift */; };
@@ -26,7 +26,17 @@
 		CEA05E7F29B72C260025B89F /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E7E29B72C260025B89F /* FirebaseDynamicLinks */; };
 		CEA05E8129B72C260025B89F /* FirebaseInAppMessagingSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E8029B72C260025B89F /* FirebaseInAppMessagingSwift-Beta */; };
 		CEA05E8329B72C260025B89F /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E8229B72C260025B89F /* FirebaseMessaging */; };
-		CEA4E5F029B6D6A2008FBBBE /* HomeTVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA4E5EF29B6D6A2008FBBBE /* HomeTVCViewModel.swift */; };
+		CEA05E8829B87FF10025B89F /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E8729B87FF10025B89F /* Reachability */; };
+		CEA05E8A29B8819F0025B89F /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E8929B8819F0025B89F /* Reachability.swift */; };
+		CEA05E8C29B882CD0025B89F /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E8B29B882CD0025B89F /* LoginVC.swift */; };
+		CEA05E9029B885160025B89F /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E8F29B885160025B89F /* GradientView.swift */; };
+		CEA05E9329B97C200025B89F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E9229B97C200025B89F /* SnapKit */; };
+		CEA05E9529B97E090025B89F /* LoginVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E9429B97E090025B89F /* LoginVCViewModel.swift */; };
+		CEA05E9929B9CA5A0025B89F /* AccountListTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E9829B9CA5A0025B89F /* AccountListTVCell.swift */; };
+		CEA05E9C29B9CF5A0025B89F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E9B29B9CF5A0025B89F /* Kingfisher */; };
+		CEA05E9E29BA06030025B89F /* DynamicLinkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E9D29BA06030025B89F /* DynamicLinkHelper.swift */; };
+		CEA05EA029BAD25D0025B89F /* MainListTVC+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E9F29BAD25D0025B89F /* MainListTVC+Extension.swift */; };
+		CEA4E5F029B6D6A2008FBBBE /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA4E5EF29B6D6A2008FBBBE /* MainListViewModel.swift */; };
 		CEF7A30729AF037400FBBD65 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF7A30629AF037400FBBD65 /* MainNavigationController.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,7 +44,7 @@
 		CE043CDE29A0D1F300983EA6 /* MessageCenter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessageCenter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE043CE129A0D1F300983EA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE043CE329A0D1F300983EA6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CE043CE529A0D1F300983EA6 /* HomeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTVC.swift; sourceTree = "<group>"; };
+		CE043CE529A0D1F300983EA6 /* MainListTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListTVC.swift; sourceTree = "<group>"; };
 		CE043CEA29A0D1F400983EA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE043CED29A0D1F400983EA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE043CEF29A0D1F400983EA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -48,7 +58,14 @@
 		CE4A0AA029A4851D009305FA /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		CE4A0AAC29A5BE9C009305FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE4A0AAE29A5C1A4009305FA /* MessageCenter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MessageCenter.entitlements; sourceTree = "<group>"; };
-		CEA4E5EF29B6D6A2008FBBBE /* HomeTVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTVCViewModel.swift; sourceTree = "<group>"; };
+		CEA05E8929B8819F0025B89F /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		CEA05E8B29B882CD0025B89F /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		CEA05E8F29B885160025B89F /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		CEA05E9429B97E090025B89F /* LoginVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVCViewModel.swift; sourceTree = "<group>"; };
+		CEA05E9829B9CA5A0025B89F /* AccountListTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListTVCell.swift; sourceTree = "<group>"; };
+		CEA05E9D29BA06030025B89F /* DynamicLinkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicLinkHelper.swift; sourceTree = "<group>"; };
+		CEA05E9F29BAD25D0025B89F /* MainListTVC+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListTVC+Extension.swift"; sourceTree = "<group>"; };
+		CEA4E5EF29B6D6A2008FBBBE /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
 		CEF7A30629AF037400FBBD65 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,7 +75,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA05E7D29B72C260025B89F /* FirebaseAnalytics in Frameworks */,
+				CEA05E8829B87FF10025B89F /* Reachability in Frameworks */,
 				CE4A0A8F29A35A06009305FA /* Alamofire in Frameworks */,
+				CEA05E9329B97C200025B89F /* SnapKit in Frameworks */,
+				CEA05E9C29B9CF5A0025B89F /* Kingfisher in Frameworks */,
 				CEA05E8329B72C260025B89F /* FirebaseMessaging in Frameworks */,
 				CEA05E8129B72C260025B89F /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				CEA05E7F29B72C260025B89F /* FirebaseDynamicLinks in Frameworks */,
@@ -94,8 +114,12 @@
 				CEF7A30829AF041C00FBBD65 /* Base */,
 				CE4A0A9329A36037009305FA /* Manager */,
 				CE4A0A8829A35719009305FA /* Util */,
-				CE043CE529A0D1F300983EA6 /* HomeTVC.swift */,
-				CEA4E5EF29B6D6A2008FBBBE /* HomeTVCViewModel.swift */,
+				CEA05E8E29B884FB0025B89F /* View */,
+				CEA05E8B29B882CD0025B89F /* LoginVC.swift */,
+				CEA05E9429B97E090025B89F /* LoginVCViewModel.swift */,
+				CE043CE529A0D1F300983EA6 /* MainListTVC.swift */,
+				CEA4E5EF29B6D6A2008FBBBE /* MainListViewModel.swift */,
+				CEA05E9F29BAD25D0025B89F /* MainListTVC+Extension.swift */,
 				CE043CEA29A0D1F400983EA6 /* Assets.xcassets */,
 				CE043CEC29A0D1F400983EA6 /* LaunchScreen.storyboard */,
 				CE043CEF29A0D1F400983EA6 /* Info.plist */,
@@ -117,6 +141,8 @@
 			isa = PBXGroup;
 			children = (
 				CE4A0A9F29A484F9009305FA /* Network */,
+				CEA05E8929B8819F0025B89F /* Reachability.swift */,
+				CEA05E9D29BA06030025B89F /* DynamicLinkHelper.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -137,6 +163,15 @@
 				CE4A0A9429A3604E009305FA /* Networking.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		CEA05E8E29B884FB0025B89F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CEA05E8F29B885160025B89F /* GradientView.swift */,
+				CEA05E9829B9CA5A0025B89F /* AccountListTVCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		CEF7A30829AF041C00FBBD65 /* Base */ = {
@@ -171,6 +206,9 @@
 				CEA05E7E29B72C260025B89F /* FirebaseDynamicLinks */,
 				CEA05E8029B72C260025B89F /* FirebaseInAppMessagingSwift-Beta */,
 				CEA05E8229B72C260025B89F /* FirebaseMessaging */,
+				CEA05E8729B87FF10025B89F /* Reachability */,
+				CEA05E9229B97C200025B89F /* SnapKit */,
+				CEA05E9B29B9CF5A0025B89F /* Kingfisher */,
 			);
 			productName = MessageCenter;
 			productReference = CE043CDE29A0D1F300983EA6 /* MessageCenter.app */;
@@ -203,6 +241,9 @@
 			packageReferences = (
 				CE4A0A8D29A35A06009305FA /* XCRemoteSwiftPackageReference "Alamofire" */,
 				CEA05E7B29B72C260025B89F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				CEA05E8629B87FF10025B89F /* XCRemoteSwiftPackageReference "Reachability" */,
+				CEA05E9129B97C200025B89F /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CEA05E9A29B9CF5A0025B89F /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = CE043CDF29A0D1F300983EA6 /* Products */;
 			projectDirPath = "";
@@ -233,17 +274,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE4A0A8A29A35733009305FA /* Logger.swift in Sources */,
-				CE043CE629A0D1F300983EA6 /* HomeTVC.swift in Sources */,
+				CE043CE629A0D1F300983EA6 /* MainListTVC.swift in Sources */,
+				CEA05E9029B885160025B89F /* GradientView.swift in Sources */,
+				CEA05E8C29B882CD0025B89F /* LoginVC.swift in Sources */,
 				CE043CE229A0D1F300983EA6 /* AppDelegate.swift in Sources */,
 				CEF7A30729AF037400FBBD65 /* MainNavigationController.swift in Sources */,
 				CE043CE429A0D1F300983EA6 /* SceneDelegate.swift in Sources */,
 				CE4A0A8729A34A91009305FA /* Extension.swift in Sources */,
+				CEA05E9929B9CA5A0025B89F /* AccountListTVCell.swift in Sources */,
 				CE4A0A9129A35F00009305FA /* Constant.swift in Sources */,
-				CEA4E5F029B6D6A2008FBBBE /* HomeTVCViewModel.swift in Sources */,
+				CEA05E9E29BA06030025B89F /* DynamicLinkHelper.swift in Sources */,
+				CEA4E5F029B6D6A2008FBBBE /* MainListViewModel.swift in Sources */,
 				CE4A0A9529A3604E009305FA /* Networking.swift in Sources */,
 				CE4A0AA129A4851D009305FA /* PostManager.swift in Sources */,
 				CE4A0A9A29A3639F009305FA /* Models.swift in Sources */,
 				CE4A0A9729A3613D009305FA /* ApiURL.swift in Sources */,
+				CEA05EA029BAD25D0025B89F /* MainListTVC+Extension.swift in Sources */,
+				CEA05E8A29B8819F0025B89F /* Reachability.swift in Sources */,
+				CEA05E9529B97E090025B89F /* LoginVCViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +525,30 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		CEA05E8629B87FF10025B89F /* XCRemoteSwiftPackageReference "Reachability" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		CEA05E9129B97C200025B89F /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		CEA05E9A29B9CF5A0025B89F /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -504,6 +576,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CEA05E7B29B72C260025B89F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		CEA05E8729B87FF10025B89F /* Reachability */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEA05E8629B87FF10025B89F /* XCRemoteSwiftPackageReference "Reachability" */;
+			productName = Reachability;
+		};
+		CEA05E9229B97C200025B89F /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEA05E9129B97C200025B89F /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		CEA05E9B29B9CF5A0025B89F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEA05E9A29B9CF5A0025B89F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

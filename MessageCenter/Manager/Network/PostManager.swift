@@ -8,8 +8,8 @@
 class PostManager {
     static let shared = PostManager()
     
-    // MARK: - Login
-    public func login(with account: String, password: String) async -> LoginData? {
+    // MARK: Login
+    public func login(withAccount account: String, password: String) async -> LoginData? {
         let login = LoginRequest(acc: account, pwd: password)
         do {
             let response = try await Networking.request(from: .login, parameter: login,
@@ -21,6 +21,19 @@ class PostManager {
         }
     }
     
+    // MARK: Logout
+    public func logout() async -> Bool {
+        do {
+            let response = try await Networking.request(from: .logout,
+                                                        receiveModel: LoginResponse.self)
+            return response.status
+        } catch {
+            Logger.error("Logout error:", error)
+            return false
+        }
+    }
+    
+    // MARK: Get list
     public func getList() async -> [ListData]? {
         do {
             let response = try await Networking.request(from: .getList,

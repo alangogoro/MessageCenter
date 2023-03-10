@@ -39,6 +39,15 @@ extension Data {
 
 // MARK: - UIView Extension
 extension UIColor {
+    static let purple = UIColor(105, 40, 187)
+    static let peachy = UIColor(255, 20, 116)
+    static let darkBlack = UIColor(6, 6, 6)
+    static let backgroundBlack = UIColor(16, 16, 16)
+    static let backgroundGray = UIColor(29, 31, 32)
+    static let toolGray = UIColor(61, 61, 61)
+    static let wordGray = UIColor(63, 70, 77)
+    static let silverGray = UIColor(129, 144, 159)
+    static let notice = UIColor(179, 179, 179)
     
     convenience init(_ r : CGFloat, _ g : CGFloat, _ b : CGFloat) {
         let red = r / 255.0
@@ -52,6 +61,30 @@ extension UIColor {
         let green = g / 255.0
         let blue = b / 255.0
         self.init(red: red, green: green, blue: blue, alpha: a)
+    }
+    
+}
+
+// MARK: - UserDefaults
+class UserDefaultsHelper {
+    
+    enum Keys: String {
+        case sessionToken = "session-token"
+        case pushToken = "push-token"
+    }
+    
+    static let defaults = UserDefaults.standard
+        
+    static func set(value: String, forKey key: Keys) {
+        defaults.setValue(value, forKey: key.rawValue)
+    }
+    
+    static func get(forKey key: Keys) -> String? {
+        defaults.value(forKey: key.rawValue) as? String
+    }
+    
+    static func remove(fokKey key: Keys) {
+        defaults.removeObject(forKey: key.rawValue)
     }
     
 }
@@ -143,9 +176,9 @@ extension UIView {
                bottom: view.bottomAnchor, right: view.rightAnchor)
     }
     
-    func setDimensionsEqualToAnotherItem(width: NSLayoutDimension? = nil, height: NSLayoutDimension? = nil,
-                                         widthMultiplier: CGFloat = 1.0, heightMultiplier: CGFloat = 1.0,
-                                         widthConstant: CGFloat = 1.0, heightConstant: CGFloat = 1.0) {
+    func setDimensionsEqualTo(width: NSLayoutDimension? = nil, height: NSLayoutDimension? = nil,
+                              widthMultiplier: CGFloat = 1.0, heightMultiplier: CGFloat = 1.0,
+                              widthConstant: CGFloat = 1.0, heightConstant: CGFloat = 1.0) {
         translatesAutoresizingMaskIntoConstraints = false
         if let width = width {
             widthAnchor.constraint(equalTo: width, multiplier: widthMultiplier, constant: widthConstant).isActive = true
@@ -206,6 +239,72 @@ extension UIAlertController {
         alertController.addAction(cancel)
         
         alertWindow.rootViewController?.present(alertController, animated: true)
+    }
+    
+    static func presentAlert(title: String, message: String? = nil,
+                             actioinTitle: String? = "確認", actionStyle: UIAlertAction.Style = .default,
+                             cancellable: Bool = true,
+                             completion: @escaping (Bool) -> ()) {
+        guard var topController = UIApplication.shared.windows
+            .first(where: { $0.isKeyWindow })?.rootViewController else { return }
+        while let presented = topController.presentedViewController {
+            topController = presented
+        }
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.setAttributedTitle([.font: UIFont.boldSystemFont(ofSize: 20)],
+                                           [.foregroundColor: UIColor.wordGray])
+        alertController.setAttributedMessage([.foregroundColor: UIColor.notice])
+        
+        let action = UIAlertAction(title: actioinTitle, style: actionStyle) { action in
+            completion(true)
+        }
+        action.titleTextColor = .peachy
+        alertController.addAction(action)
+        
+        let cancel = UIAlertAction(title: "取消", style: .cancel) { cancel in
+            completion(false)
+        }
+        cancel.titleTextColor = .silverGray
+        if cancellable {
+            alertController.addAction(cancel)
+        }
+        
+        topController.present(alertController, animated: true)
+    }
+    
+    func setAttributedTitle(_ attributes: [NSAttributedString.Key: Any]...) {
+        guard let title = self.title else { return }
+        let attributeString = NSMutableAttributedString(string: title)
+        
+        for attribute in attributes {
+            attributeString.addAttributes(attribute, range: NSMakeRange(0, title.count))
+        }
+        
+        self.setValue(attributeString, forKey: "attributedTitle")
+    }
+    
+    func setAttributedMessage(_ attributes: [NSAttributedString.Key: Any]...) {
+        guard let message = self.message else { return }
+        let attributeString = NSMutableAttributedString(string: message)
+        
+        for attribute in attributes {
+            attributeString.addAttributes(attribute, range: NSMakeRange(0, message.count))
+        }
+        
+        self.setValue(attributeString, forKey: "attributedMessage")
+    }
+    
+}
+
+extension UIAlertAction {
+    
+    var titleTextColor: UIColor? {
+        get {
+            return self.value(forKey: "titleTextColor") as? UIColor
+        } set {
+            self.setValue(newValue, forKey: "titleTextColor")
+        }
     }
     
 }
