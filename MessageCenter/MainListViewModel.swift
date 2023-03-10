@@ -13,7 +13,7 @@ import FirebaseAnalytics
 class MainListViewModel {
     // MARK: - Properties
     let userList = CurrentValueSubject<[ListData], Never>([])
-    private let deviceToken = CurrentValueSubject<String, Never>("")
+    let errorPublisher = PassthroughSubject<Bool, Never>()
     private var subscriptions = Set<AnyCancellable>()
     
     private let postManager: PostManager
@@ -21,11 +21,6 @@ class MainListViewModel {
     // MARK: - Lifecycle
     init(post: PostManager) {
         self.postManager = post
-//        setupSubscriptions()
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(handleFCMToken(notification:)),
-//                                               name: Notification.Name("FCM Token"),
-//                                               object: nil)
     }
     
     public func getUserList() {
@@ -34,35 +29,8 @@ class MainListViewModel {
             if let users {
                 self.userList.value = users
             }
+            errorPublisher.send(users == nil || self.userList.value.isEmpty)
         }
-    }
-    
-    @objc
-    private func handleFCMToken(notification: Notification) {
-        if let userInfo = notification.userInfo,
-           let fcmToken = userInfo["fcmToken"] as? String {
-            UserDefaultsHelper.set(value: fcmToken, forKey: .pushToken)
-            self.deviceToken.value = fcmToken
-        }
-    }
-    
-    fileprivate func setupSubscriptions() {
-        deviceToken.sink { token in
-            Task {
-//                let loginData = await self.login()
-//                self.setFAUserName(loginData?.name)
-//
-//                if let loginToken = loginData?.sessionToken {
-//                    UserDefaultsHelper.set(value: loginToken, forKey: .sessionToken)
-//                    Logger.info("session-token:", loginToken)
-//
-//                    if let userList = await self.getList() {
-//                        self.userList.value = userList
-//                        Logger.info("userList:" , userList.map { "\($0.name ?? "N/A")"} )
-//                    }
-//                }
-            }
-        }.store(in: &subscriptions)
     }
     
     // MARK: - API

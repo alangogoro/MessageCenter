@@ -16,7 +16,7 @@ extension MainListTVC: UITableViewDelegate {
 // MARK: - AccountListTVCellDlegate
 extension MainListTVC: AccountListTVCellDlegate {
     
-    func didSelectAccount(_ cell: AccountListTVCell, account: ListData) {
+    func didSelectAccount(_ cell: UserListTVCell, account: ListData) {
         let token = account.fastToken
         guard let url = DynamicLinkHelper.createDeepLink(for: token) else { return }
         

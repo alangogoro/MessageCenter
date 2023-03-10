@@ -32,11 +32,13 @@
 		CEA05E9029B885160025B89F /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E8F29B885160025B89F /* GradientView.swift */; };
 		CEA05E9329B97C200025B89F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E9229B97C200025B89F /* SnapKit */; };
 		CEA05E9529B97E090025B89F /* LoginVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E9429B97E090025B89F /* LoginVCViewModel.swift */; };
-		CEA05E9929B9CA5A0025B89F /* AccountListTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E9829B9CA5A0025B89F /* AccountListTVCell.swift */; };
+		CEA05E9929B9CA5A0025B89F /* UserListTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E9829B9CA5A0025B89F /* UserListTVCell.swift */; };
 		CEA05E9C29B9CF5A0025B89F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E9B29B9CF5A0025B89F /* Kingfisher */; };
 		CEA05E9E29BA06030025B89F /* DynamicLinkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E9D29BA06030025B89F /* DynamicLinkHelper.swift */; };
 		CEA05EA029BAD25D0025B89F /* MainListTVC+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E9F29BAD25D0025B89F /* MainListTVC+Extension.swift */; };
 		CEA4E5F029B6D6A2008FBBBE /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA4E5EF29B6D6A2008FBBBE /* MainListViewModel.swift */; };
+		CEC432BB29BB194A00A19207 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC432BA29BB194A00A19207 /* UserDefaultsHelper.swift */; };
+		CEC432BD29BB20B000A19207 /* NoResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC432BC29BB20B000A19207 /* NoResultView.swift */; };
 		CEF7A30729AF037400FBBD65 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF7A30629AF037400FBBD65 /* MainNavigationController.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,10 +64,12 @@
 		CEA05E8B29B882CD0025B89F /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		CEA05E8F29B885160025B89F /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		CEA05E9429B97E090025B89F /* LoginVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVCViewModel.swift; sourceTree = "<group>"; };
-		CEA05E9829B9CA5A0025B89F /* AccountListTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListTVCell.swift; sourceTree = "<group>"; };
+		CEA05E9829B9CA5A0025B89F /* UserListTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListTVCell.swift; sourceTree = "<group>"; };
 		CEA05E9D29BA06030025B89F /* DynamicLinkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicLinkHelper.swift; sourceTree = "<group>"; };
 		CEA05E9F29BAD25D0025B89F /* MainListTVC+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListTVC+Extension.swift"; sourceTree = "<group>"; };
 		CEA4E5EF29B6D6A2008FBBBE /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
+		CEC432BA29BB194A00A19207 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
+		CEC432BC29BB20B000A19207 /* NoResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoResultView.swift; sourceTree = "<group>"; };
 		CEF7A30629AF037400FBBD65 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				CE4A0A9029A35F00009305FA /* Constant.swift */,
+				CEC432BA29BB194A00A19207 /* UserDefaultsHelper.swift */,
 				CE4A0A8629A34A91009305FA /* Extension.swift */,
 				CE4A0A8929A35733009305FA /* Logger.swift */,
 			);
@@ -169,7 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				CEA05E8F29B885160025B89F /* GradientView.swift */,
-				CEA05E9829B9CA5A0025B89F /* AccountListTVCell.swift */,
+				CEC432BC29BB20B000A19207 /* NoResultView.swift */,
+				CEA05E9829B9CA5A0025B89F /* UserListTVCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -277,12 +283,14 @@
 				CE043CE629A0D1F300983EA6 /* MainListTVC.swift in Sources */,
 				CEA05E9029B885160025B89F /* GradientView.swift in Sources */,
 				CEA05E8C29B882CD0025B89F /* LoginVC.swift in Sources */,
+				CEC432BD29BB20B000A19207 /* NoResultView.swift in Sources */,
 				CE043CE229A0D1F300983EA6 /* AppDelegate.swift in Sources */,
 				CEF7A30729AF037400FBBD65 /* MainNavigationController.swift in Sources */,
 				CE043CE429A0D1F300983EA6 /* SceneDelegate.swift in Sources */,
 				CE4A0A8729A34A91009305FA /* Extension.swift in Sources */,
-				CEA05E9929B9CA5A0025B89F /* AccountListTVCell.swift in Sources */,
+				CEA05E9929B9CA5A0025B89F /* UserListTVCell.swift in Sources */,
 				CE4A0A9129A35F00009305FA /* Constant.swift in Sources */,
+				CEC432BB29BB194A00A19207 /* UserDefaultsHelper.swift in Sources */,
 				CEA05E9E29BA06030025B89F /* DynamicLinkHelper.swift in Sources */,
 				CEA4E5F029B6D6A2008FBBBE /* MainListViewModel.swift in Sources */,
 				CE4A0A9529A3604E009305FA /* Networking.swift in Sources */,

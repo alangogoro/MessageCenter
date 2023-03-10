@@ -9,10 +9,10 @@ import UIKit
 import Kingfisher
 
 protocol AccountListTVCellDlegate {
-    func didSelectAccount(_ cell: AccountListTVCell, account: ListData)
+    func didSelectAccount(_ cell: UserListTVCell, account: ListData)
 }
 
-class AccountListTVCell: UITableViewCell {
+class UserListTVCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "UserListTVCell"
     private lazy var background = UIView()
@@ -45,6 +45,8 @@ class AccountListTVCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        accountImage.image = nil
+        unreadView.isHidden = true
         arrowButton.imageView?.image = #imageLiteral(resourceName: "white_arrow_down_icon")
     }
     
@@ -106,17 +108,15 @@ class AccountListTVCell: UITableViewCell {
         loginView.snp.makeConstraints {
             $0.right.equalTo(arrowIcon.snp.left).offset(-screenWidth * (12/375))
             $0.centerY.equalTo(background)
-            $0.width.equalTo(screenWidth * (44/375))
             $0.height.equalTo(screenWidth * (20/375))
         }
         
         loginView.addSubview(loginLabel)
         loginLabel.font = .boldSystemFont(ofSize: 13)
         loginLabel.textColor = .backgroundBlack
-        loginLabel.text = "登入"
         loginLabel.snp.makeConstraints {
-            $0.center.equalTo(loginView)
             $0.top.bottom.equalTo(loginView)
+            $0.left.right.equalTo(loginView).inset(screenWidth * (8/375))
         }
         
         contentView.addSubview(loginButton)
@@ -134,9 +134,9 @@ class AccountListTVCell: UITableViewCell {
         unreadView.clipsToBounds = true
         unreadView.layer.cornerRadius = (screenWidth * (20/375)) / 2
         unreadView.snp.makeConstraints {
-            $0.right.equalTo(loginView.snp.left).offset(-screenWidth * (18/375))
+            $0.right.equalTo(loginView.snp.left).offset(-screenWidth * (12/375))
             $0.centerY.equalTo(background)
-            $0.height.equalTo(screenWidth * (20/375))
+            $0.height.greaterThanOrEqualTo(screenWidth * (20/375))
         }
         
         unreadView.addSubview(unreadLabel)
@@ -167,8 +167,25 @@ class AccountListTVCell: UITableViewCell {
         accountImage.kf.setImage(with: URL(string: profilePic),
                                  placeholder: UIImage(named: "user_no_pic"))
         accountNameLabel.text = accountName
-        // TODO: - unread 等於0時隱藏
-        unreadLabel.text = account.unread
+        
+        if let unread = account.unread,
+           (unread != "") && (unread != "0") {
+            unreadView.isHidden = false
+            unreadLabel.text = unread
+        } else {
+            unreadView.isHidden = true
+        }
+        
+        if let canLogin = account.canLogin,
+           canLogin == "1" {
+            loginView.backgroundColor = .white
+            loginLabel.textColor = .backgroundBlack
+            loginLabel.text = "登入"
+        } else {
+            loginView.backgroundColor = .toolGray
+            loginLabel.textColor = .white
+            loginLabel.text = "使用中"
+        }
     }
     
 }

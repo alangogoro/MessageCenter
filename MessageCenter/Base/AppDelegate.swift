@@ -68,15 +68,19 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             Logger.debug("message ID: \(messageID)")
         }
         
-        Logger.warning("userInfo:", userInfo)
-        
+        Logger.debug("userInfo:", userInfo)
+        print("⭐️1️⃣ AppDelegate -> \(#function). 前景接到")
+        NotificationCenter.default.post(name: Notification.Name("New message"),
+                                        object: nil)
         if UIApplication.shared.applicationState != .active {
             return [[.alert, .sound, .badge]]
         } else {
             if #available(iOS 14.0, *) {
-                return [[.banner, .sound]]
+                return [[ .sound]]
+                //return [[.banner, .sound]]
             } else {
-                return [[.alert, .sound]]
+                return [[.sound]]
+                //return [[.alert, .sound]]
             }
             
             // show banner or navigate to..
@@ -92,7 +96,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             let identifiers = notifications.map { $0.request.identifier }
             center.removeDeliveredNotifications(withIdentifiers: identifiers)
         }
-        
+        print("⭐️2️⃣ AppDelegate -> \(#function). 點開推播")
+        NotificationCenter.default.post(name: Notification.Name("New message"),
+                                        object: nil)
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         let userInfo = response.notification.request.content.userInfo
         Messaging.messaging().appDidReceiveMessage(userInfo)
@@ -136,9 +142,6 @@ extension AppDelegate: MessagingDelegate {
         
         UserDefaultsHelper.set(value: fcmToken ?? "", forKey: .pushToken)
         
-        NotificationCenter.default.post(name: Notification.Name("FCM Token"),
-                                        object: nil,
-                                        userInfo: tokenDict)
         Messaging.messaging().token { (token, error) in
             if let error = error {
                 Logger.error("Error fetching FCM registration token: \(error)")
@@ -156,7 +159,9 @@ extension AppDelegate: MessagingDelegate {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
         // TODO: Handle data of notification
-        
+        print("⭐️3️⃣ AppDelegate -> \(#function)")
+        NotificationCenter.default.post(name: Notification.Name("New message"),
+                                        object: nil)
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         Messaging.messaging().appDidReceiveMessage(userInfo)
         if let messageID = userInfo[FCMKeys.messageId] {

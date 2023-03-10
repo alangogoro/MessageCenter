@@ -48,6 +48,10 @@ class LoginVC: UIViewController {
         // loginAction(sender: loginButton)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Selectors
     @objc
     private func loginAction(sender: UIButton) {
@@ -56,9 +60,14 @@ class LoginVC: UIViewController {
             sender.isEnabled = true
         }
         
-        guard let account = accountTextField.text, !account.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty else {
-            // TODO: use Alert Helper
+        guard let account = accountTextField.text, !account.isEmpty else {
+            UIAlertController.presentAlert(title: "請輸入正確帳號",
+                                           cancellable: false, completion: nil)
+            return
+        }
+        guard let password = passwordTextField.text, !password.isEmpty else {
+            UIAlertController.presentAlert(title: "請輸入密碼",
+                                           cancellable: false, completion: nil)
             return
         }
         
@@ -268,7 +277,7 @@ extension LoginVC: UITextFieldDelegate {
         errorLabel.isHidden = true
         print("⭐️ Login -> \(#function)",
               "\ttext =", textField.text?.trimmingCharacters(in: .whitespaces) ?? "N/A")
-        guard (string != " " && string != "#") else { return false }
+        guard (string != " " && string != "\n") else { return false }
         return true
     }
     

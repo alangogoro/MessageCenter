@@ -65,37 +65,12 @@ extension UIColor {
     
 }
 
-// MARK: - UserDefaults
-class UserDefaultsHelper {
-    
-    enum Keys: String {
-        case sessionToken = "session-token"
-        case pushToken = "push-token"
-    }
-    
-    static let defaults = UserDefaults.standard
-        
-    static func set(value: String, forKey key: Keys) {
-        defaults.setValue(value, forKey: key.rawValue)
-    }
-    
-    static func get(forKey key: Keys) -> String? {
-        defaults.value(forKey: key.rawValue) as? String
-    }
-    
-    static func remove(fokKey key: Keys) {
-        defaults.removeObject(forKey: key.rawValue)
-    }
-    
-}
-
 extension UIView {
     
     func addSubview(_ views: UIView...) {
         for view in views {
             self.addSubview(view)
         }
-        
     }
     
     // MARK: AutoLayout
@@ -192,59 +167,11 @@ extension UIView {
 
 // MARK: - UIAlertController
 extension UIAlertController {
-    
-    static func samplePresent() {
-        guard let windowScene = UIApplication.shared.windows
-            .first(where: { $0.isKeyWindow })?.windowScene else { return }
         
-        let alertWindow = UIWindow(windowScene: windowScene)
-        alertWindow.frame = UIScreen.main.bounds
-        alertWindow.backgroundColor = .clear
-        alertWindow.windowLevel = .alert
-        alertWindow.rootViewController = UIViewController()
-        alertWindow.makeKeyAndVisible()
-        
-        let alertController = UIAlertController(title: "Alert", message: nil,
-                                                preferredStyle: .alert)
-        let doneAction = UIAlertAction(title: "Done", style: .default) { action in
-            // retain alertView reference within this handler, then release the window as handler finished
-            _ = alertWindow
-        }
-        alertController.addAction(doneAction)
-        
-        alertWindow.rootViewController?.present(alertController, animated: true)
-    }
-    
-    static func present(title: String, message: String? = nil,
-                        actionTitle: String? = nil, actionStyle: UIAlertAction.Style = .default,
-                        completion: @escaping (Bool) -> Void) {
-        guard let windowScene = UIApplication.shared.windows
-            .first(where: { $0.isKeyWindow })?.windowScene else { return }
-            
-        let alertWindow = UIWindow(windowScene: windowScene)
-        alertWindow.frame = windowScene.screen.bounds
-        alertWindow.backgroundColor = .clear
-        alertWindow.windowLevel = .alert
-        alertWindow.rootViewController = UIViewController()
-        
-        let alertController = UIAlertController(title: title, message: message,
-                                                preferredStyle: .alert)
-        let action = UIAlertAction(title: actionTitle ?? "確認", style: actionStyle) { action in
-            completion(true)
-        }
-        let cancel = UIAlertAction(title: "取消", style: .cancel) { cancel in
-            completion(false)
-        }
-        alertController.addAction(action)
-        alertController.addAction(cancel)
-        
-        alertWindow.rootViewController?.present(alertController, animated: true)
-    }
-    
     static func presentAlert(title: String, message: String? = nil,
                              actioinTitle: String? = "確認", actionStyle: UIAlertAction.Style = .default,
                              cancellable: Bool = true,
-                             completion: @escaping (Bool) -> ()) {
+                             completion: ((Bool) -> Void)? = nil) {
         guard var topController = UIApplication.shared.windows
             .first(where: { $0.isKeyWindow })?.rootViewController else { return }
         while let presented = topController.presentedViewController {
@@ -254,16 +181,15 @@ extension UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.setAttributedTitle([.font: UIFont.boldSystemFont(ofSize: 20)],
                                            [.foregroundColor: UIColor.wordGray])
-        alertController.setAttributedMessage([.foregroundColor: UIColor.notice])
         
         let action = UIAlertAction(title: actioinTitle, style: actionStyle) { action in
-            completion(true)
+            completion?(true)
         }
         action.titleTextColor = .peachy
         alertController.addAction(action)
         
         let cancel = UIAlertAction(title: "取消", style: .cancel) { cancel in
-            completion(false)
+            completion?(false)
         }
         cancel.titleTextColor = .silverGray
         if cancellable {

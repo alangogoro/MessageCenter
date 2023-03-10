@@ -13,11 +13,12 @@ class LoginVCViewModel {
     }
     
     public func login(account: String, password: String) async -> Bool {
-        let result = await postManager.login(withAccount: account, password: password)
-        if let sessionToken = result?.sessionToken {
+        let data = await postManager.login(withAccount: account, password: password)
+        if let sessionToken = data?.sessionToken {
+            UserDefaultsHelper.set(value: data?.name ?? "", forKey: .loginName)
             UserDefaultsHelper.set(value: sessionToken, forKey: .sessionToken)
         }
-        return result != nil
+        return data != nil
     }
     
 }
