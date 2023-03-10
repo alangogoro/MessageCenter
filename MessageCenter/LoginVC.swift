@@ -24,12 +24,10 @@ class LoginVC: UIViewController {
     private lazy var loginButton = UIButton()
     private lazy var errorLabel = UILabel()
     
-    private lazy var toolView = UIView()
-    private lazy var titleLabel = UILabel()
+    private var currentTextField: UITextField?
+    private var rect: CGRect?
     
-    private lazy var backButton = UIButton()
-    private lazy var separateLine = UIView()
-    
+    private lazy var viewModel = LoginVCViewModel(post: postManager)
     private let postManager = PostManager.shared
     
     
@@ -37,16 +35,47 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        addTapToCancelKeyboard()
+        addKeyboardEventObservers()
+        
+        // TODO: Login button 變色 (color func)
+        // TODO: 錯誤 UI 提示 (didSet?)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        accountTextField.text = "aaaa"
+        passwordTextField.text = "bbbb"
+        // loginAction(sender: loginButton)
     }
     
     // MARK: - Selectors
     @objc
-    private func loginAction() {
-        print("⭐️ Login -> \(#function)")
-        InputBackgrounds.forEach { $0.layer.borderColor = UIColor.peachy.cgColor }
-        loginBackground.changeColor(leftColor: .purple, rightColor: .peachy)
-        errorLabel.isHidden = false
+    private func loginAction(sender: UIButton) {
+        sender.isEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [sender] in
+            sender.isEnabled = true
+        }
+        
+        guard let account = accountTextField.text, !account.isEmpty,
+              let password = passwordTextField.text, !password.isEmpty else {
+            // TODO: use Alert Helper
+            return
+        }
+        
+        Task {
+            let result = await viewModel.login(account: account, password: password)
+            if result {
+                self.navigationController?.pushViewController(MainListTVC(), animated: true)
+            } else {
+                // wrong
+                InputBackgrounds.forEach { $0.layer.borderColor = UIColor.peachy.cgColor }
+                loginBackground.changeColor(leftColor: .purple, rightColor: .peachy)
+            }
+        }
+    }
+    
+    @objc private func doneButtonAction() {
+        view.endEditing(true)
     }
     
     // MARK: - Configuration
@@ -121,7 +150,7 @@ class LoginVC: UIViewController {
                                                                     attributes: [.foregroundColor: UIColor.notice,
                                                                                  .font: UIFont.systemFont(ofSize: 14)])
         passwordTextField.keyboardType = .default
-        passwordTextField.returnKeyType = .go
+        passwordTextField.returnKeyType = .done
         passwordTextField.autocorrectionType = .no
         passwordTextField.autocapitalizationType = .none
         passwordTextField.isSecureTextEntry = true
@@ -146,13 +175,8 @@ class LoginVC: UIViewController {
         view.addSubview(loginButton)
         loginButton.isEnabled = true
         loginButton.backgroundColor = .clear
-        if #available(iOS 14.0, *) {
-            loginButton.addAction(UIAction(handler: { [unowned self] action in
-                self.loginAction()
-            }), for: .touchUpInside)
-        } else {
-            loginButton.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
-        }
+        loginButton.addTarget(self,
+                              action: #selector(loginAction(sender:)), for: .touchUpInside)
         loginButton.center(inView: loginBackground)
         loginButton.setDimensionsEqualTo(width: loginBackground.widthAnchor, height: loginBackground.heightAnchor)
         
@@ -167,11 +191,66 @@ class LoginVC: UIViewController {
         errorLabel.setDimensionsEqualTo(width: view.widthAnchor)
     }
     
-    // MARK: - Helper
-    private func addTapToCancelKeyboard() {
-        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+    // MARK: - Keyboard Helpers
+    private func createTextFieldToolBar() -> UIToolbar {
+        let toolbar = UIToolbar()
+        let flexSpace  = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                         target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "完成", style: .done,
+                                         target: self, action: #selector(doneButtonAction))
+                
+        toolbar.setItems([flexSpace, doneButton], animated: true)
+        toolbar.sizeToFit()
+        return toolbar
+    }
+    
+    private func addKeyboardEventObservers() {
+        rect = view.bounds
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc
+    private func keyboardWillShow(note: NSNotification) {
+        if currentTextField == nil {
+            return
+        }
+        guard let userInfo = note.userInfo else { return }
+        let keyboard = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
+        let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
+        let origin = (currentTextField?.frame.origin)!
+        let height = (currentTextField?.frame.size.height)!
+        
+        let targetY = origin.y + height
+        let visibleRectWithoutKeyboard = self.view.bounds.size.height - keyboard.height
+        
+        if targetY >= visibleRectWithoutKeyboard {
+            var rect_ = self.rect!
+            rect_.origin.y -= (targetY - visibleRectWithoutKeyboard) + 15
+        
+            UIView.animate(withDuration: duration,
+                           animations: { () -> Void in
+                self.view.frame = rect_
+            })
+        }
+    }
+    
+    @objc
+    private func keyboardWillHide(note: NSNotification) {
+        if view.frame.origin.y != rect?.origin.y {
+            view.frame.origin.y = CGFloat.zero
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
 }
@@ -179,8 +258,33 @@ class LoginVC: UIViewController {
 // MARK: - UITextViewDelegate
 extension LoginVC: UITextFieldDelegate {
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        currentTextField = textField
+    }
+    
+    
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         errorLabel.isHidden = true
+        print("⭐️ Login -> \(#function)",
+              "\ttext =", textField.text?.trimmingCharacters(in: .whitespaces) ?? "N/A")
+        guard (string != " " && string != "#") else { return false }
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // only called when TextField finished
+        print("⭐️ Login -> \(#function)",
+              "\ttext =", textField.text?.trimmingCharacters(in: .whitespaces) ?? "N/A")
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == accountTextField {
+            passwordTextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+            loginAction(sender: loginButton)
+        }
         return true
     }
     

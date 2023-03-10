@@ -14,8 +14,8 @@ class Networking {
     
     static func request<T, U>(from url: ApiURL,
                               parameter: T? = ["": ""], receiveModel: U.Type) async throws -> U where T: Encodable, U: Decodable {
-        let sessionToken = UserDefaultsHelper.get(forKey: "session-token") as? String ?? ""
-        let pushToken = UserDefaultsHelper.get(forKey: "push-token") as? String ?? ""
+        let sessionToken = UserDefaultsHelper.get(forKey: .sessionToken) ?? ""
+        let pushToken = UserDefaultsHelper.get(forKey: .pushToken) ?? ""
         let headers: HTTPHeaders = [
             .init(name: "session-token", value: sessionToken),
             .init(name: "push-token", value: pushToken),

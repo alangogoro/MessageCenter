@@ -13,8 +13,6 @@ import FirebaseMessaging
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    public var deviceToken: String?
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -114,7 +112,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
-        self.deviceToken = Messaging.messaging().fcmToken
         #if DEBUG
         Messaging.messaging().subscribe(toTopic: "MGC_test") { error in
             error == nil ? Logger.debug("subscribed to MGC_test topic") : nil
@@ -136,6 +133,8 @@ extension AppDelegate: MessagingDelegate {
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         let tokenDict = ["fcmToken": fcmToken ?? ""]
+        
+        UserDefaultsHelper.set(value: fcmToken ?? "", forKey: .pushToken)
         
         NotificationCenter.default.post(name: Notification.Name("FCM Token"),
                                         object: nil,

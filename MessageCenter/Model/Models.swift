@@ -49,32 +49,22 @@ struct LoginData: Decodable {
 // MARK: - List Model
 struct ListResponse: Decodable {
     let status: Bool
-    #if DEBUG
-    #else
     let message: String
-    #endif
     let data: [ListData]?
     
     enum CodingKeys: CodingKey {
-        #if DEBUG
-        #else
-        case message
-        #endif
-        case status, data
+        case status, message, data
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         status = try container.decodeIfPresent(Bool.self, forKey: .status) ?? false
-        #if DEBUG
-        #else
         message = try container.decodeIfPresent(String.self, forKey: .message) ?? ""
-        #endif
         data = try container.decodeIfPresent([ListData].self, forKey: .data) ?? nil
     }
 }
 
-struct ListData: Decodable {
+struct ListData: Decodable, Hashable {
     /// 淘妹用戶ID
     let userId: String
     /// 用戶UID
@@ -106,6 +96,14 @@ struct ListData: Decodable {
         fastToken = try container.decodeIfPresent(String.self, forKey: .fastToken) ?? ""
         canLogin = try container.decodeIfPresent(String.self, forKey: .canLogin) ?? nil
         lastInfo = try container.decodeIfPresent(LastChatData.self, forKey: .lastInfo) ?? nil
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(uid)
+    }
+    
+    static func == (lhs: ListData, rhs: ListData) -> Bool {
+        return lhs.uid == rhs.uid
     }
 }
 

@@ -9,7 +9,7 @@ class PostManager {
     static let shared = PostManager()
     
     // MARK: Login
-    public func login(with account: String, password: String) async -> LoginData? {
+    public func login(withAccount account: String, password: String) async -> LoginData? {
         let login = LoginRequest(acc: account, pwd: password)
         do {
             let response = try await Networking.request(from: .login, parameter: login,
