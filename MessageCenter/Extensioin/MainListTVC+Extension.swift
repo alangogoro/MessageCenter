@@ -16,6 +16,7 @@ extension MainListTVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard !sections.isEmpty else { return 0 }
         let section = sections[section]
         if section.isOpend {
             return 2
@@ -65,7 +66,7 @@ extension MainListTVC: AccountListTVCellDlegate {
     }
     
     func didSelectToExpand(_ cell: UserListTVCell, indexPath: IndexPath, isOpened: Bool) {
-        sections[indexPath.section].isOpend = !sections[indexPath.section].isOpend
+        sections[indexPath.section].isOpend = !(sections[indexPath.section].isOpend)
         tableView.reloadSections([indexPath.section], with: .none)
     }
     

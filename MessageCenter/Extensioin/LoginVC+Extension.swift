@@ -73,14 +73,10 @@ extension LoginVC: UITextFieldDelegate {
     func textField(_ textField: UITextField,
                    shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard (string != " " && string != "\n") else { return false }
-        
         inputBackgrounds.forEach { $0.layer.borderColor = UIColor.toolGray.cgColor }
         
-        let canLogin = viewModel.checkInputs(accountTextField.text, passwordTextField.text)
-        updateLoginButtonStatus(canLogin)
-        
-        guard let prevTextCount = textField.text?.count else { return false }
-        let textCount = prevTextCount + string.count - range.length
+        guard let lastTextCount = textField.text?.count else { return true }
+        let textCount = lastTextCount + string.count - range.length
         return textCount <= viewModel.maxTextCount
     }
     
@@ -89,8 +85,9 @@ extension LoginVC: UITextFieldDelegate {
             passwordTextField.becomeFirstResponder()
         } else {
             textField.resignFirstResponder()
+            
             let canLogin = viewModel.checkInputs(accountTextField.text, passwordTextField.text)
-            updateLoginButtonStatus(canLogin)
+            configureLoginButtonStatus(canLogin)
             
             if canLogin {
                 loginAction(sender: loginButton)
@@ -99,16 +96,10 @@ extension LoginVC: UITextFieldDelegate {
         return true
     }
     
-    internal func restoreUIStatus() {
-        accountTextField.text = nil
-        passwordTextField.text = nil
-        updateLoginButtonStatus(false)
-    }
-    
-    fileprivate func updateLoginButtonStatus(_ canLogin: Bool) {
-        loginBackground.changeColor(leftColor: canLogin ? .purple : .toolGray,
-                                    rightColor: canLogin ? .peachy : .toolGray)
-        loginButton.isEnabled = canLogin
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        let canLogin = viewModel.checkInputs(accountTextField.text, passwordTextField.text)
+        configureLoginButtonStatus(canLogin)
+        return true
     }
     
 }

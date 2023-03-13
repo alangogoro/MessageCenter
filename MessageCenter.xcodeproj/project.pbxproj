@@ -123,17 +123,51 @@
 				CE4A0A9329A36037009305FA /* Manager */,
 				CE4A0A8829A35719009305FA /* Util */,
 				CEA05E8E29B884FB0025B89F /* View */,
-				CEA05E8B29B882CD0025B89F /* LoginVC.swift */,
-				CEA05E9429B97E090025B89F /* LoginVCViewModel.swift */,
-				CEC432C029BB813500A19207 /* LoginVC+Extension.swift */,
-				CE043CE529A0D1F300983EA6 /* MainListTVC.swift */,
-				CEA4E5EF29B6D6A2008FBBBE /* MainListViewModel.swift */,
-				CEA05E9F29BAD25D0025B89F /* MainListTVC+Extension.swift */,
+				CE05C4F129BEC2FF00C96808 /* Controller */,
+				CE05C4F229BEC33300C96808 /* ViewModel */,
+				CE05C4F029BEC2DA00C96808 /* Extensioin */,
 				CE043CEA29A0D1F400983EA6 /* Assets.xcassets */,
 				CE043CEC29A0D1F400983EA6 /* LaunchScreen.storyboard */,
 				CE043CEF29A0D1F400983EA6 /* Info.plist */,
 			);
 			path = MessageCenter;
+			sourceTree = "<group>";
+		};
+		CE05C4EF29BEC2B800C96808 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CEA05E9829B9CA5A0025B89F /* UserListTVCell.swift */,
+				CEC432BE29BB443900A19207 /* UserListDeatilTVCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		CE05C4F029BEC2DA00C96808 /* Extensioin */ = {
+			isa = PBXGroup;
+			children = (
+				CEC432C029BB813500A19207 /* LoginVC+Extension.swift */,
+				CEA05E9F29BAD25D0025B89F /* MainListTVC+Extension.swift */,
+			);
+			path = Extensioin;
+			sourceTree = "<group>";
+		};
+		CE05C4F129BEC2FF00C96808 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CEF7A30629AF037400FBBD65 /* MainNavigationController.swift */,
+				CEA05E8B29B882CD0025B89F /* LoginVC.swift */,
+				CE043CE529A0D1F300983EA6 /* MainListTVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		CE05C4F229BEC33300C96808 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CEA05E9429B97E090025B89F /* LoginVCViewModel.swift */,
+				CEA4E5EF29B6D6A2008FBBBE /* MainListViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		CE4A0A8829A35719009305FA /* Util */ = {
@@ -178,10 +212,9 @@
 		CEA05E8E29B884FB0025B89F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CE05C4EF29BEC2B800C96808 /* Cell */,
 				CEA05E8F29B885160025B89F /* GradientView.swift */,
 				CEC432BC29BB20B000A19207 /* NoResultView.swift */,
-				CEA05E9829B9CA5A0025B89F /* UserListTVCell.swift */,
-				CEC432BE29BB443900A19207 /* UserListDeatilTVCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -191,7 +224,6 @@
 			children = (
 				CE043CE129A0D1F300983EA6 /* AppDelegate.swift */,
 				CE043CE329A0D1F300983EA6 /* SceneDelegate.swift */,
-				CEF7A30629AF037400FBBD65 /* MainNavigationController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -450,7 +482,7 @@
 				DEVELOPMENT_TEAM = 3A8F73CL8Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MessageCenter/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Talk May";
+				INFOPLIST_KEY_CFBundleDisplayName = TalkMayb;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -481,7 +513,7 @@
 				DEVELOPMENT_TEAM = 3A8F73CL8Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MessageCenter/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Talk May";
+				INFOPLIST_KEY_CFBundleDisplayName = TalkMayb;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";

@@ -17,7 +17,6 @@ class UserListTVCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "UserListTVCell"
     private lazy var background = UIView()
-    private lazy var rectBackground = UIView()
     private lazy var accountImage = UIImageView()
     private lazy var accountNameLabel = UILabel()
     private lazy var unreadView = UIView()
@@ -54,13 +53,11 @@ class UserListTVCell: UITableViewCell {
         accountNameLabel.text = nil
         unreadView.isHidden = true
         arrowIcon.image = #imageLiteral(resourceName: "white_arrow_down_icon")
-        rectBackground.isHidden = true
     }
     
     // MARK: - Selector
     @objc
     private func loginAction() {
-        print("⭐️ ListCell -> \(#function)")
         guard let account else { return }
         #if DEBUG
         #else
@@ -70,9 +67,9 @@ class UserListTVCell: UITableViewCell {
     
     @objc
     private func arrowAction() {
-        print("⭐️ ListCell -> \(#function)")
         isOpened.toggle()
         updateCollapseUI(isOpened)
+        
         delegate?.didSelectToExpand(self, indexPath: indexPath, isOpened: isOpened)
     }
     
@@ -169,21 +166,11 @@ class UserListTVCell: UITableViewCell {
             $0.right.lessThanOrEqualTo(unreadView.snp.left).offset(screenWidth * (12/375))
             $0.centerY.equalTo(accountImage)
         }
-        
-        contentView.addSubview(rectBackground)
-        contentView.sendSubviewToBack(rectBackground)
-        rectBackground.isHidden = true
-        rectBackground.backgroundColor = .backgroundGray
-        rectBackground.snp.makeConstraints {
-            $0.bottom.equalTo(background)
-            $0.left.right.equalTo(background)
-            $0.height.equalTo(screenWidth * (10/375))
-        }
     }
     
     fileprivate func updateCollapseUI(_ isOpened: Bool) {
         arrowIcon.image = isOpened ? #imageLiteral(resourceName: "white_arrow_up_icon") : #imageLiteral(resourceName: "white_arrow_down_icon")
-        rectBackground.isHidden = !isOpened
+        background.layer.maskedCorners = isOpened ? [.layerMinXMinYCorner, .layerMaxXMinYCorner] : [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
     }
     
     public func configure(with account: ListData, isOpen: Bool) {

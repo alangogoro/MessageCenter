@@ -71,12 +71,14 @@ class LoginVC: UIViewController {
         
         Task {
             let result = await viewModel.login(account: account, password: password)
-            if result {
-                restoreUIStatus()
-                self.navigationController?.pushViewController(MainListTVC(), animated: true)
-            } else {
-                inputBackgrounds.forEach { $0.layer.borderColor = UIColor.peachy.cgColor }
-                errorLabel.isHidden = false
+            
+            await MainActor.run {
+                if result {
+                    displayDefaultUIStatus()
+                    self.navigationController?.pushViewController(MainListTVC(), animated: true)
+                } else {
+                    displayWrongUIStatus()
+                }
             }
         }
     }
@@ -193,4 +195,22 @@ class LoginVC: UIViewController {
                            topAnchor: loginBackground.bottomAnchor, paddingTop: screenWidth * (16/375))
         errorLabel.setDimensionsEqualTo(width: view.widthAnchor)
     }
+    
+    fileprivate func displayDefaultUIStatus() {
+        accountTextField.text = nil
+        passwordTextField.text = nil
+        configureLoginButtonStatus(false)
+    }
+    
+    fileprivate func displayWrongUIStatus() {
+        inputBackgrounds.forEach { $0.layer.borderColor = UIColor.peachy.cgColor }
+        errorLabel.isHidden = false
+    }
+    
+    internal func configureLoginButtonStatus(_ canLogin: Bool) {
+        loginBackground.changeColor(leftColor: canLogin ? .purple : .toolGray,
+                                    rightColor: canLogin ? .peachy : .toolGray)
+        loginButton.isEnabled = canLogin
+    }
+    
 }

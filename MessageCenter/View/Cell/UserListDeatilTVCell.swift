@@ -12,7 +12,6 @@ class UserListDetailTVCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "UserListTVDetailCell"
     private lazy var background = UIView()
-    private lazy var radiusBackground = UIView()
     private lazy var separatorLine = UIView()
     private lazy var newestIcon = UIImageView()
     private lazy var newestLabel = UILabel()
@@ -45,9 +44,9 @@ class UserListDetailTVCell: UITableViewCell {
         background.backgroundColor = .backgroundGray
         background.clipsToBounds = true
         background.layer.cornerRadius = screenWidth * (10/375)
+        background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         background.snp.makeConstraints {
             $0.top.bottom.equalTo(contentView)
-            //$0.bottom.equalTo(contentView).inset(screenWidth * (8/375))
             $0.left.right.equalTo(contentView)
         }
         
@@ -106,15 +105,6 @@ class UserListDetailTVCell: UITableViewCell {
             $0.top.equalTo(background.snp.centerY).offset(2)
             $0.left.equalTo(lastChatImage)
             $0.right.lessThanOrEqualTo(background).inset(screenWidth * (44/375))
-        }
-        
-        contentView.addSubview(radiusBackground)
-        contentView.sendSubviewToBack(radiusBackground)
-        radiusBackground.backgroundColor = .backgroundGray
-        radiusBackground.snp.makeConstraints {
-            $0.top.equalTo(contentView)
-            $0.left.right.equalTo(contentView)
-            $0.height.equalTo(screenWidth * (10/375))
         }
     }
     

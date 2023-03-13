@@ -27,7 +27,7 @@ class MainNavigationController: UINavigationController {
         }
     }
     
-    // MARK: - Helpers
+    // MARK: - Navigate to
     private func navigateToLogin() {
         self.viewControllers = [LoginVC()]
         self.popToRootViewController(animated: true)
