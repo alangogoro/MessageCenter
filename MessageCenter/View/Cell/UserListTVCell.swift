@@ -20,6 +20,7 @@ class UserListTVCell: UITableViewCell {
     private lazy var accountImage = UIImageView()
     private lazy var accountNameLabel = UILabel()
     private lazy var unreadView = UIView()
+    private lazy var unreadRoundedView = UIView()
     private lazy var unreadLabel = UILabel()
     private lazy var loginView = UIView()
     private lazy var loginLabel = UILabel()
@@ -51,7 +52,9 @@ class UserListTVCell: UITableViewCell {
         super.prepareForReuse()
         accountImage.image = nil
         accountNameLabel.text = nil
+        unreadLabel.text = nil
         unreadView.isHidden = true
+        unreadRoundedView.isHidden = true
         arrowIcon.image = #imageLiteral(resourceName: "white_arrow_down_icon")
     }
     
@@ -59,10 +62,7 @@ class UserListTVCell: UITableViewCell {
     @objc
     private func loginAction() {
         guard let account else { return }
-        #if DEBUG
-        #else
         delegate?.didSelectAccount(self, account: account)
-        #endif
     }
     
     @objc
@@ -138,7 +138,8 @@ class UserListTVCell: UITableViewCell {
             $0.top.bottom.equalTo(background)
         }
         
-        contentView.addSubview(unreadView)
+        background.addSubview(unreadView)
+        unreadView.isHidden = true
         unreadView.backgroundColor = .peachy
         unreadView.clipsToBounds = true
         unreadView.layer.cornerRadius = (screenWidth * (20/375)) / 2
@@ -146,6 +147,18 @@ class UserListTVCell: UITableViewCell {
             $0.right.equalTo(loginView.snp.left).offset(-screenWidth * (12/375))
             $0.centerY.equalTo(background)
             $0.height.greaterThanOrEqualTo(screenWidth * (20/375))
+        }
+        
+        // this view is for fully rouded circle when unreadLabel is too thin
+        background.addSubview(unreadRoundedView)
+        background.sendSubviewToBack(unreadRoundedView)
+        unreadRoundedView.isHidden = true
+        unreadRoundedView.backgroundColor = .peachy
+        unreadRoundedView.clipsToBounds = true
+        unreadRoundedView.layer.cornerRadius = (screenWidth * (20/375)) / 2
+        unreadRoundedView.snp.makeConstraints {
+            $0.center.equalTo(unreadView)
+            $0.width.height.equalTo(screenWidth * (20/375))
         }
         
         unreadView.addSubview(unreadLabel)
@@ -185,9 +198,12 @@ class UserListTVCell: UITableViewCell {
         if let unread = account.unread,
            (unread != "") && (unread != "0") {
             unreadView.isHidden = false
-            unreadLabel.text = unread
+            unreadRoundedView.isHidden = false
+            let unread = Int(unread)!
+            unreadLabel.text = unread > 99 ? "99+" : "\(unread)"
         } else {
             unreadView.isHidden = true
+            unreadRoundedView.isHidden = true
         }
         
         if let canLogin = account.canLogin,

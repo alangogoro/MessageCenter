@@ -6,8 +6,9 @@
 //
 
 import Foundation
-
 import UIKit
+import SnapKit
+
 
 class LoginVC: UIViewController {
     // MARK: - Properties
@@ -40,8 +41,12 @@ class LoginVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        /*accountTextField.text = "aaaa"
-        passwordTextField.text = "bbbb"*/
+        #if DEBUG
+        DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
+            self.accountTextField.text = "aaaa"
+            self.passwordTextField.text = "bbbb"
+        }
+        #endif
     }
     
     deinit {
@@ -51,24 +56,30 @@ class LoginVC: UIViewController {
     // MARK: - Selectors
     @objc
     internal func loginAction(sender: UIButton) {
-        view.endEditing(true)
-        
         sender.isEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [sender] in
             sender.isEnabled = true
         }
+        view.endEditing(true)
         
-        guard let account = accountTextField.text, !account.isEmpty else {
-            UIAlertController.presentAlert(title: "請輸入帳號",
-                                           cancellable: false, completion: nil)
+        guard let account = accountTextField.text, account.count >= 4 else {
+            UIAlertController.presentAlert(title: "請輸入正確帳號格式",
+                                           cancellable: false)
             return
         }
-        guard let password = passwordTextField.text, !password.isEmpty else {
-            UIAlertController.presentAlert(title: "請輸入密碼",
-                                           cancellable: false, completion: nil)
+        guard let password = passwordTextField.text, password.count >= 4 else {
+            UIAlertController.presentAlert(title: "請輸入正確密碼格式",
+                                           cancellable: false)
             return
         }
-        
+        if let mainNavigation = self.navigationController as? MainNavigationController {
+            if mainNavigation.monitor.currentPath.status != .satisfied {
+                UIAlertController.presentAlert(title: "網路異常", message: "請稍候再嘗試！",
+                                               cancellable: false)
+                return
+            }
+        }
+            
         Task {
             let result = await viewModel.login(account: account, password: password)
             
@@ -90,33 +101,42 @@ class LoginVC: UIViewController {
         view.addSubview(background)
         background.image = UIImage(named: "login_background")
         background.contentMode = .scaleAspectFill
-        background.frame = view.frame
+        background.snp.makeConstraints {
+            $0.edges.equalTo(view)
+        }
         
         view.addSubview(themeIcon)
         themeIcon.image = #imageLiteral(resourceName: "app_theme_logo")
         themeIcon.contentMode = .scaleAspectFill
-        themeIcon.setDimensions(width: screenWidth * (108/375), height: screenWidth * (108/375))
-        themeIcon.centerX(inView: view,
-                          topAnchor: view.topAnchor, paddingTop: screenWidth * (168/375) +
-                          (self.navigationController?.navigationBar.bounds.size.height ?? 0.0))
+        let navigationBarHeight = self.navigationController?.navigationBar.bounds.size.height ?? 0.0
+        themeIcon.snp.makeConstraints {
+            $0.top.equalTo(view).inset(navigationBarHeight + screenWidth * (168/375))
+            $0.centerX.equalTo(view)
+            $0.width.height.equalTo(screenWidth * (108/375))
+        }
         
         view.addSubview(descriptionLabel)
         descriptionLabel.font = .systemFont(ofSize: 16)
         descriptionLabel.textColor = .white
         descriptionLabel.textAlignment = .center
         descriptionLabel.text = "登入以啟用訊息管理中心"
-        descriptionLabel.centerX(inView: view, topAnchor: themeIcon.bottomAnchor, paddingTop: screenWidth * (44/375))
-        descriptionLabel.setDimensionsEqualTo(width: view.widthAnchor)
+        descriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(themeIcon.snp.bottom).offset(screenWidth * (44/375))
+            $0.centerX.equalTo(view)
+            $0.width.equalTo(view)
+        }
         
         view.addSubview(accountBackground)
+        accountBackground.backgroundColor = .darkBlack
         accountBackground.clipsToBounds = true
         accountBackground.layer.cornerRadius = screenWidth * (44/375) / 2
         accountBackground.layer.borderWidth = 1
         accountBackground.layer.borderColor = UIColor.toolGray.cgColor
-        accountBackground.backgroundColor = .darkBlack
-        accountBackground.centerX(inView: view,
-                                  topAnchor: descriptionLabel.bottomAnchor, paddingTop: screenWidth * (22/375))
-        accountBackground.setDimensions(width: screenWidth * (280/375), height: screenWidth * (44/375))
+        accountBackground.snp.makeConstraints {
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(screenWidth * (22/375))
+            $0.left.right.equalTo(view).inset(screenWidth * (44/375))
+            $0.height.equalTo(screenWidth * (44/375))
+        }
         
         view.addSubview(accountTextField)
         accountTextField.delegate = self
@@ -131,9 +151,11 @@ class LoginVC: UIViewController {
         accountTextField.returnKeyType = .next
         accountTextField.autocorrectionType = .no
         accountTextField.autocapitalizationType = .none
-        accountTextField.center(inView: accountBackground)
-        accountTextField.setDimensionsEqualTo(width: accountBackground.widthAnchor, widthMultiplier: 0.85)
-        
+        accountTextField.snp.makeConstraints {
+            $0.center.equalTo(accountBackground)
+            $0.width.equalTo(accountBackground).multipliedBy(0.85)
+            $0.height.equalTo(accountBackground)
+        }
         
         view.addSubview(passwordBackground)
         passwordBackground.clipsToBounds = true
@@ -141,9 +163,11 @@ class LoginVC: UIViewController {
         passwordBackground.layer.borderWidth = 1
         passwordBackground.layer.borderColor = UIColor.toolGray.cgColor
         passwordBackground.backgroundColor = .darkBlack
-        passwordBackground.centerX(inView: view,
-                                   topAnchor: accountBackground.bottomAnchor, paddingTop: screenWidth * (22/375))
-        passwordBackground.setDimensions(width: screenWidth * (280/375), height: screenWidth * (44/375))
+        passwordBackground.snp.makeConstraints {
+            $0.top.equalTo(accountBackground.snp.bottom).offset(screenWidth * (22/375))
+            $0.left.right.equalTo(view).inset(screenWidth * (44/375))
+            $0.height.equalTo(screenWidth * (44/375))
+        }
         
         view.addSubview(passwordTextField)
         passwordTextField.delegate = self
@@ -159,31 +183,38 @@ class LoginVC: UIViewController {
         passwordTextField.autocorrectionType = .no
         passwordTextField.autocapitalizationType = .none
         passwordTextField.isSecureTextEntry = true
-        passwordTextField.center(inView: passwordBackground)
-        passwordTextField.setDimensionsEqualTo(width: passwordBackground.widthAnchor, widthMultiplier: 0.85)
+        passwordTextField.snp.makeConstraints {
+            $0.center.equalTo(passwordBackground)
+            $0.width.equalTo(passwordBackground).multipliedBy(0.85)
+            $0.height.equalTo(passwordBackground)
+        }
         
         view.addSubview(loginBackground)
         loginBackground.clipsToBounds = true
         loginBackground.layer.cornerRadius = screenWidth * (44/375) / 2
-        loginBackground.centerX(inView: view,
-                                topAnchor: passwordBackground.bottomAnchor, paddingTop: screenWidth * (32/375))
-        loginBackground.setDimensions(width: screenWidth * (280/375), height: screenWidth * (44/375))
+        loginBackground.snp.makeConstraints {
+            $0.top.equalTo(passwordBackground.snp.bottom).offset(screenWidth * (32/375))
+            $0.left.right.equalTo(view).inset(screenWidth * (44/375))
+            $0.height.equalTo(screenWidth * (44/375))
+        }
         
         loginBackground.addSubview(loginLabel)
-        loginLabel.font = .boldSystemFont(ofSize: 22)
+        loginLabel.font = .boldSystemFont(ofSize: 20)
         loginLabel.textColor = .white
         loginLabel.textAlignment = .center
         loginLabel.text = "登入 / 註冊"
-        loginLabel.centerX(inView: loginBackground)
-        loginLabel.setDimensionsEqualTo(height: loginBackground.heightAnchor)
+        loginLabel.snp.makeConstraints {
+            $0.centerX.equalTo(loginBackground)
+            $0.height.equalTo(loginBackground)
+        }
         
         view.addSubview(loginButton)
-        loginButton.isEnabled = false
         loginButton.backgroundColor = .clear
         loginButton.addTarget(self,
                               action: #selector(loginAction(sender:)), for: .touchUpInside)
-        loginButton.center(inView: loginBackground)
-        loginButton.setDimensionsEqualTo(width: loginBackground.widthAnchor, height: loginBackground.heightAnchor)
+        loginButton.snp.makeConstraints {
+            $0.edges.equalTo(loginBackground)
+        }
         
         view.addSubview(errorLabel)
         errorLabel.isHidden = true
@@ -191,9 +222,10 @@ class LoginVC: UIViewController {
         errorLabel.textColor = .peachy
         errorLabel.textAlignment = .center
         errorLabel.text = "帳號或密碼錯誤，請重新輸入"
-        errorLabel.centerX(inView: view,
-                           topAnchor: loginBackground.bottomAnchor, paddingTop: screenWidth * (16/375))
-        errorLabel.setDimensionsEqualTo(width: view.widthAnchor)
+        errorLabel.snp.makeConstraints {
+            $0.top.equalTo(loginBackground.snp.bottom).offset(screenWidth * (16/375))
+            $0.width.equalTo(view)
+        }
     }
     
     fileprivate func displayDefaultUIStatus() {
@@ -210,7 +242,6 @@ class LoginVC: UIViewController {
     internal func configureLoginButtonStatus(_ canLogin: Bool) {
         loginBackground.changeColor(leftColor: canLogin ? .purple : .toolGray,
                                     rightColor: canLogin ? .peachy : .toolGray)
-        loginButton.isEnabled = canLogin
     }
     
 }

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 import Combine
 
 class MainListTVC: UIViewController {
@@ -70,13 +69,20 @@ class MainListTVC: UIViewController {
         UIAlertController.presentAlert(title: "確定要登出嗎？",
                                        actionStyle: .destructive) { confirm in
             if confirm {
+                if let mainNavigation = self.navigationController as? MainNavigationController {
+                    if mainNavigation.monitor.currentPath.status != .satisfied {
+                        UIAlertController.presentAlert(title: "網路異常", message: "請稍候再嘗試！",
+                                                       cancellable: false)
+                        return
+                    }
+                }
+                
                 Task {
                     let result = await self.postManager.logout()
                     if result {
-                        UserDefaultsHelper.remove(fokKey: .sessionToken)
-                        
                         Task.detached { @MainActor in
                             self.navigationController?.popToRootViewController(animated: true)
+                            UserDefaultsHelper.remove(fokKey: .sessionToken)
                         }
                     }
                 }

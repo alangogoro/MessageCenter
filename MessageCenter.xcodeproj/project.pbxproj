@@ -12,6 +12,8 @@
 		CE043CE629A0D1F300983EA6 /* MainListTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE043CE529A0D1F300983EA6 /* MainListTVC.swift */; };
 		CE043CEB29A0D1F400983EA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE043CEA29A0D1F400983EA6 /* Assets.xcassets */; };
 		CE043CEE29A0D1F400983EA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE043CEC29A0D1F400983EA6 /* LaunchScreen.storyboard */; };
+		CE05C4F429BEE4A000C96808 /* NWMonitorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE05C4F329BEE4A000C96808 /* NWMonitorHelper.swift */; };
+		CE05C4F629BEFB4700C96808 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE05C4F529BEFB4700C96808 /* ToastView.swift */; };
 		CE4A0A8729A34A91009305FA /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A8629A34A91009305FA /* Extension.swift */; };
 		CE4A0A8A29A35733009305FA /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A0A8929A35733009305FA /* Logger.swift */; };
 		CE4A0A8F29A35A06009305FA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = CE4A0A8E29A35A06009305FA /* Alamofire */; };
@@ -26,8 +28,6 @@
 		CEA05E7F29B72C260025B89F /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E7E29B72C260025B89F /* FirebaseDynamicLinks */; };
 		CEA05E8129B72C260025B89F /* FirebaseInAppMessagingSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E8029B72C260025B89F /* FirebaseInAppMessagingSwift-Beta */; };
 		CEA05E8329B72C260025B89F /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E8229B72C260025B89F /* FirebaseMessaging */; };
-		CEA05E8829B87FF10025B89F /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E8729B87FF10025B89F /* Reachability */; };
-		CEA05E8A29B8819F0025B89F /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E8929B8819F0025B89F /* Reachability.swift */; };
 		CEA05E8C29B882CD0025B89F /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E8B29B882CD0025B89F /* LoginVC.swift */; };
 		CEA05E9029B885160025B89F /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA05E8F29B885160025B89F /* GradientView.swift */; };
 		CEA05E9329B97C200025B89F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CEA05E9229B97C200025B89F /* SnapKit */; };
@@ -52,6 +52,8 @@
 		CE043CEA29A0D1F400983EA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE043CED29A0D1F400983EA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE043CEF29A0D1F400983EA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE05C4F329BEE4A000C96808 /* NWMonitorHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NWMonitorHelper.swift; sourceTree = "<group>"; };
+		CE05C4F529BEFB4700C96808 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		CE4A0A8629A34A91009305FA /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		CE4A0A8929A35733009305FA /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		CE4A0A9029A35F00009305FA /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -62,7 +64,6 @@
 		CE4A0AA029A4851D009305FA /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		CE4A0AAC29A5BE9C009305FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE4A0AAE29A5C1A4009305FA /* MessageCenter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MessageCenter.entitlements; sourceTree = "<group>"; };
-		CEA05E8929B8819F0025B89F /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		CEA05E8B29B882CD0025B89F /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		CEA05E8F29B885160025B89F /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		CEA05E9429B97E090025B89F /* LoginVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVCViewModel.swift; sourceTree = "<group>"; };
@@ -83,7 +84,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA05E7D29B72C260025B89F /* FirebaseAnalytics in Frameworks */,
-				CEA05E8829B87FF10025B89F /* Reachability in Frameworks */,
 				CE4A0A8F29A35A06009305FA /* Alamofire in Frameworks */,
 				CEA05E9329B97C200025B89F /* SnapKit in Frameworks */,
 				CEA05E9C29B9CF5A0025B89F /* Kingfisher in Frameworks */,
@@ -154,7 +154,6 @@
 		CE05C4F129BEC2FF00C96808 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				CEF7A30629AF037400FBBD65 /* MainNavigationController.swift */,
 				CEA05E8B29B882CD0025B89F /* LoginVC.swift */,
 				CE043CE529A0D1F300983EA6 /* MainListTVC.swift */,
 			);
@@ -185,7 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				CE4A0A9F29A484F9009305FA /* Network */,
-				CEA05E8929B8819F0025B89F /* Reachability.swift */,
 				CEA05E9D29BA06030025B89F /* DynamicLinkHelper.swift */,
 			);
 			path = Manager;
@@ -205,6 +203,7 @@
 				CE4A0A9629A3613D009305FA /* ApiURL.swift */,
 				CE4A0AA029A4851D009305FA /* PostManager.swift */,
 				CE4A0A9429A3604E009305FA /* Networking.swift */,
+				CE05C4F329BEE4A000C96808 /* NWMonitorHelper.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -215,6 +214,7 @@
 				CE05C4EF29BEC2B800C96808 /* Cell */,
 				CEA05E8F29B885160025B89F /* GradientView.swift */,
 				CEC432BC29BB20B000A19207 /* NoResultView.swift */,
+				CE05C4F529BEFB4700C96808 /* ToastView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -224,6 +224,7 @@
 			children = (
 				CE043CE129A0D1F300983EA6 /* AppDelegate.swift */,
 				CE043CE329A0D1F300983EA6 /* SceneDelegate.swift */,
+				CEF7A30629AF037400FBBD65 /* MainNavigationController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -250,7 +251,6 @@
 				CEA05E7E29B72C260025B89F /* FirebaseDynamicLinks */,
 				CEA05E8029B72C260025B89F /* FirebaseInAppMessagingSwift-Beta */,
 				CEA05E8229B72C260025B89F /* FirebaseMessaging */,
-				CEA05E8729B87FF10025B89F /* Reachability */,
 				CEA05E9229B97C200025B89F /* SnapKit */,
 				CEA05E9B29B9CF5A0025B89F /* Kingfisher */,
 			);
@@ -285,7 +285,6 @@
 			packageReferences = (
 				CE4A0A8D29A35A06009305FA /* XCRemoteSwiftPackageReference "Alamofire" */,
 				CEA05E7B29B72C260025B89F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				CEA05E8629B87FF10025B89F /* XCRemoteSwiftPackageReference "Reachability" */,
 				CEA05E9129B97C200025B89F /* XCRemoteSwiftPackageReference "SnapKit" */,
 				CEA05E9A29B9CF5A0025B89F /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
@@ -333,12 +332,13 @@
 				CEA05E9E29BA06030025B89F /* DynamicLinkHelper.swift in Sources */,
 				CEA4E5F029B6D6A2008FBBBE /* MainListViewModel.swift in Sources */,
 				CE4A0A9529A3604E009305FA /* Networking.swift in Sources */,
+				CE05C4F629BEFB4700C96808 /* ToastView.swift in Sources */,
+				CE05C4F429BEE4A000C96808 /* NWMonitorHelper.swift in Sources */,
 				CE4A0AA129A4851D009305FA /* PostManager.swift in Sources */,
 				CE4A0A9A29A3639F009305FA /* Models.swift in Sources */,
 				CE4A0A9729A3613D009305FA /* ApiURL.swift in Sources */,
 				CEC432C129BB813500A19207 /* LoginVC+Extension.swift in Sources */,
 				CEA05EA029BAD25D0025B89F /* MainListTVC+Extension.swift in Sources */,
-				CEA05E8A29B8819F0025B89F /* Reachability.swift in Sources */,
 				CEA05E9529B97E090025B89F /* LoginVCViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -573,14 +573,6 @@
 				minimumVersion = 9.0.0;
 			};
 		};
-		CEA05E8629B87FF10025B89F /* XCRemoteSwiftPackageReference "Reachability" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		CEA05E9129B97C200025B89F /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -624,11 +616,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CEA05E7B29B72C260025B89F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
-		};
-		CEA05E8729B87FF10025B89F /* Reachability */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CEA05E8629B87FF10025B89F /* XCRemoteSwiftPackageReference "Reachability" */;
-			productName = Reachability;
 		};
 		CEA05E9229B97C200025B89F /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;

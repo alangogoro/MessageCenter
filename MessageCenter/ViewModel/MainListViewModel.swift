@@ -29,7 +29,7 @@ class MainListViewModel {
             if let users {
                 self.userList.value = users
             }
-            errorPublisher.send(users == nil || self.userList.value.isEmpty)
+            errorPublisher.send(users == nil ? self.userList.value.isEmpty : false)
         }
     }
     
