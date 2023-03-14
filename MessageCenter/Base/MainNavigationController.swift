@@ -31,7 +31,7 @@ class MainNavigationController: UINavigationController {
             }
         }
         
-        monitorNetWork()
+        monitorNetwork()
     }
     
     // MARK: - Navigate to
@@ -43,7 +43,7 @@ class MainNavigationController: UINavigationController {
     }
     
     // MARK: - Network Helper
-    private func monitorNetWork() {
+    private func monitorNetwork() {
         monitor.pathUpdateHandler = { [weak self] path in
             if path.status == .satisfied {
                 print("connected")

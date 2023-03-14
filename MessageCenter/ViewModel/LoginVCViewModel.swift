@@ -6,6 +6,7 @@
 //
 
 class LoginVCViewModel {
+    
     public let maxTextCount = 50
     private let postManager: PostManager
     

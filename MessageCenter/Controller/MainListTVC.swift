@@ -54,16 +54,12 @@ class MainListTVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setupListCombine()
+        setupCombine()
         viewModel.getUserList()
         addNewMessageObserver()
     }
     
     // MARK: - Selectors
-    @objc private func handleNewMessage() {
-        refreshRedDot.isHidden = false
-    }
-    
     @objc
     private func logoutAction() {
         UIAlertController.presentAlert(title: "確定要登出嗎？",
@@ -110,6 +106,11 @@ class MainListTVC: UIViewController {
         } completion: { [weak self] finish in
             self?.refreshControl.endRefreshing()
         }
+    }
+    
+    @objc
+    private func handleNewMessage() {
+        refreshRedDot.isHidden = false
     }
     
     // MARK: - Configuration
@@ -250,7 +251,7 @@ class MainListTVC: UIViewController {
     }
     
     // MARK: - Helpers
-    fileprivate func setupListCombine() {        
+    fileprivate func setupCombine() {
         viewModel.userList
             .drop(while: { $0.isEmpty })
             .receive(on: DispatchQueue.main)
