@@ -24,6 +24,7 @@ class MainNavigationController: UINavigationController {
                 if await PostManager.shared.getList() == nil {
                     navigateToLogin()
                 } else {
+                    // Direct to MainList (logged in)
                     self.setViewControllers([LoginVC(), MainListTVC()], animated: false)
                 }
             } else {
@@ -36,9 +37,7 @@ class MainNavigationController: UINavigationController {
     
     // MARK: - Navigate to
     private func navigateToLogin() {
-        self.viewControllers = [LoginVC()]
-        self.popToRootViewController(animated: true)
-        
+        self.setViewControllers([LoginVC()], animated: true)
         UserDefaultsHelper.remove(fokKey: .sessionToken)
     }
     

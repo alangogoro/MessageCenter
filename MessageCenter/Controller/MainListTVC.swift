@@ -62,24 +62,24 @@ class MainListTVC: UIViewController {
     // MARK: - Selectors
     @objc
     private func logoutAction() {
-        UIAlertController.presentAlert(title: "確定要登出嗎？",
-                                       actionStyle: .destructive) { confirm in
+        UIAlertController.present(title: "確定要登出嗎？",
+                                  actionStyle: .destructive, cancellable: true) { confirm in
             if confirm {
                 if let mainNavigation = self.navigationController as? MainNavigationController {
                     if mainNavigation.monitor.currentPath.status != .satisfied {
-                        UIAlertController.presentAlert(title: "網路異常", message: "請稍候再嘗試！",
-                                                       cancellable: false)
+                        UIAlertController.present(title: "網路異常", message: "請稍候再嘗試！")
                         return
                     }
                 }
                 
                 Task {
                     let result = await self.postManager.logout()
-                    if result {
-                        Task.detached { @MainActor in
-                            self.navigationController?.popToRootViewController(animated: true)
-                            UserDefaultsHelper.remove(fokKey: .sessionToken)
-                        }
+                    UIAlertController.present(title: "登出失敗", message: "請關閉再重新開啟APP")
+                    switch result {
+                    case .success(_):
+                        self.logoutProcess()
+                    case .failure(_):
+                        UIAlertController.present(title: "登出失敗", message: "請關閉再重新開啟程式")
                     }
                 }
             }
@@ -87,7 +87,7 @@ class MainListTVC: UIViewController {
     }
     
     @objc
-    private func refreshAction() {
+    internal func refreshAction() {
         refreshRedDot.isHidden = true
         refreshButton.isEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [refreshButton] in
@@ -277,6 +277,13 @@ class MainListTVC: UIViewController {
                                                selector: #selector(handleNewMessage),
                                                name: Notification.Name("New message"),
                                                object: nil)
+    }
+    
+    @MainActor
+    private func logoutProcess() {
+        UserDefaultsHelper.remove(fokKey: .sessionToken)
+        self.navigationController?.popToRootViewController(animated: true)
+        (self.navigationController?.viewControllers.first as? LoginVC)?.displayLogoutView()
     }
     
 }

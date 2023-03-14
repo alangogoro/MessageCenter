@@ -60,14 +60,17 @@ extension MainListTVC: AccountListTVCellDlegate {
     func didSelectAccount(_ cell: UserListTVCell, account: ListData) {
         let token = account.fastToken
         guard let url = DynamicLinkHelper.createDeepLink(for: token) else {
-            UIAlertController.presentAlert(title: "登入失敗", message: "請嘗試更新或重新登入",
-                                           cancellable: false)
+            UIAlertController.present(title: "登入失敗", message: "請嘗試更新或重新登入")
             return
         }
         
-        Task.detached { @MainActor in
+        Task.detached { @MainActor [weak self] in
             if UIApplication.shared.canOpenURL(url) {
-                await UIApplication.shared.open(url)
+                let opened = await UIApplication.shared.open(url)
+                if opened {
+                    await Task.sleep(seconds: 3)
+                    self?.refreshAction()
+                }
             }
         }
     }

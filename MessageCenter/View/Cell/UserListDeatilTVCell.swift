@@ -42,9 +42,13 @@ class UserListDetailTVCell: UITableViewCell {
     private func configureUI() {
         contentView.addSubview(background)
         background.backgroundColor = .backgroundGray
-        background.clipsToBounds = true
+        background.clipsToBounds = false
         background.layer.cornerRadius = screenWidth * (10/375)
         background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        background.layer.shadowColor = UIColor.black.cgColor
+        background.layer.shadowOpacity = 0.2
+        background.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        background.layer.shadowRadius = screenWidth * (10/375)
         background.snp.makeConstraints {
             $0.top.bottom.equalTo(contentView)
             $0.left.right.equalTo(contentView)
@@ -72,9 +76,11 @@ class UserListDetailTVCell: UITableViewCell {
         background.addSubview(newestLabel)
         newestLabel.font = .systemFont(ofSize: 14)
         newestLabel.textColor = .notice
+        newestLabel.adjustsFontSizeToFitWidth = true
         newestLabel.text = "最新訊息"
         newestLabel.snp.makeConstraints {
             $0.left.equalTo(newestIcon.snp.right).offset(3)
+            $0.width.equalTo(screenWidth * (68/375))
             $0.centerY.equalTo(newestIcon)
         }
         
@@ -94,7 +100,7 @@ class UserListDetailTVCell: UITableViewCell {
         lastChatNameLabel.snp.makeConstraints {
             $0.centerY.equalTo(lastChatImage)
             $0.left.equalTo(lastChatImage.snp.right).offset(3)
-            $0.right.lessThanOrEqualTo(background).inset(screenWidth * (44/375))
+            $0.right.lessThanOrEqualTo(background).inset(screenWidth * (50/375))
         }
         
         background.addSubview(lastChatMessageLabel)
@@ -104,7 +110,7 @@ class UserListDetailTVCell: UITableViewCell {
         lastChatMessageLabel.snp.makeConstraints {
             $0.top.equalTo(background.snp.centerY).offset(2)
             $0.left.equalTo(lastChatImage)
-            $0.right.lessThanOrEqualTo(background).inset(screenWidth * (44/375))
+            $0.right.lessThanOrEqualTo(background).inset(screenWidth * (50/375))
         }
     }
     

@@ -37,6 +37,15 @@ extension Data {
     
 }
 
+// MARK: - Task
+extension Task where Success == Never, Failure == Never {
+    
+    static func sleep(seconds: TimeInterval) async {
+        try? await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
+    }
+    
+}
+
 // MARK: - UIView Extension
 extension UIColor {
     static let purple = UIColor(105, 40, 187)
@@ -77,11 +86,11 @@ extension UIView {
 
 // MARK: - UIAlertController
 extension UIAlertController {
-        
-    static func presentAlert(title: String, message: String? = nil,
-                             actioinTitle: String? = "確認", actionStyle: UIAlertAction.Style = .default,
-                             cancellable: Bool = true,
-                             completion: ((Bool) -> Void)? = nil) {
+    
+    static func present(title: String, message: String? = nil,
+                        actioinTitle: String? = "確認", actionStyle: UIAlertAction.Style = .default,
+                        cancellable: Bool = false,
+                        completion: ((Bool) -> Void)? = nil) {
         guard var topController = UIApplication.shared.windows
             .first(where: { $0.isKeyWindow })?.rootViewController else { return }
         while let presented = topController.presentedViewController {

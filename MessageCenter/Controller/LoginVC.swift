@@ -5,7 +5,6 @@
 //  Created by Alan Taichung on 2023/3/8.
 //
 
-import Foundation
 import UIKit
 import SnapKit
 
@@ -42,7 +41,7 @@ class LoginVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         #if DEBUG
-        DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 12) {
             self.accountTextField.text = "aaaa"
             self.passwordTextField.text = "bbbb"
         }
@@ -63,19 +62,16 @@ class LoginVC: UIViewController {
         view.endEditing(true)
         
         guard let account = accountTextField.text, account.count >= 4 else {
-            UIAlertController.presentAlert(title: "請輸入正確帳號格式",
-                                           cancellable: false)
+            UIAlertController.present(title: "請輸入正確帳號格式")
             return
         }
         guard let password = passwordTextField.text, password.count >= 4 else {
-            UIAlertController.presentAlert(title: "請輸入正確密碼格式",
-                                           cancellable: false)
+            UIAlertController.present(title: "請輸入正確密碼格式")
             return
         }
         if let mainNavigation = self.navigationController as? MainNavigationController {
             if mainNavigation.monitor.currentPath.status != .satisfied {
-                UIAlertController.presentAlert(title: "網路異常", message: "請稍候再嘗試！",
-                                               cancellable: false)
+                UIAlertController.present(title: "網路異常", message: "請稍候再嘗試！")
                 return
             }
         }
@@ -92,6 +88,11 @@ class LoginVC: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK: - Public functions
+    public func displayLogoutView() {
+        presentAlert(title: "帳號已登出")
     }
     
     // MARK: - Configuration
@@ -242,6 +243,17 @@ class LoginVC: UIViewController {
     internal func configureLoginButtonStatus(_ canLogin: Bool) {
         loginBackground.changeColor(leftColor: canLogin ? .purple : .toolGray,
                                     rightColor: canLogin ? .peachy : .toolGray)
+    }
+    
+    private func presentAlert(title: String) {
+        let alertController = UIAlertController(title: title, message: nil,
+                                                preferredStyle: .alert)
+        alertController.setAttributedTitle([.foregroundColor: UIColor.peachy])
+        self.present(alertController, animated: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            alertController.dismiss(animated: true)
+        }
     }
     
 }

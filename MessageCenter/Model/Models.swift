@@ -9,6 +9,7 @@
 struct LoginRequest: Encodable {
     let acc: String
     let pwd: String
+    let os_type: String
 }
 
 struct LoginResponse: Decodable {

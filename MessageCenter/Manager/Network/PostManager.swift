@@ -5,12 +5,21 @@
 //  Created by usr on 2023/2/21.
 //
 
+import Alamofire
+
+
 class PostManager {
+    enum PostError: Error {
+        case requestError(String)
+        case aferror(AFError)
+    }
+    
     static let shared = PostManager()
     
     // MARK: Login
     public func login(withAccount account: String, password: String) async -> LoginData? {
-        let login = LoginRequest(acc: account, pwd: password)
+        let login = LoginRequest(acc: account, pwd: password,
+                                 os_type: LoginParameter.Values.OSType)
         do {
             let response = try await Networking.request(from: .login, parameter: login,
                                                         receiveModel: LoginResponse.self)
@@ -22,14 +31,18 @@ class PostManager {
     }
     
     // MARK: Logout
-    public func logout() async -> Bool {
+    public func logout() async -> Result<LoginResponse, PostError> {
         do {
             let response = try await Networking.request(from: .logout,
                                                         receiveModel: LoginResponse.self)
-            return response.status
+            if response.status {
+                return .success(response)
+            } else {
+                return .failure(.requestError(response.message))
+            }
         } catch {
             Logger.error("Logout error:", error)
-            return false
+            return .failure(.aferror(error as! AFError))
         }
     }
     

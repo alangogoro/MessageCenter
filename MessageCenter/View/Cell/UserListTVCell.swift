@@ -87,9 +87,10 @@ class UserListTVCell: UITableViewCell {
         background.addSubview(accountImage)
         accountImage.clipsToBounds = true
         accountImage.layer.cornerRadius = (screenWidth * (36/375)) / 2
+        accountImage.contentMode = .scaleAspectFit
         accountImage.snp.makeConstraints {
-            $0.left.equalTo(background).inset(screenWidth * (16/375))
             $0.top.bottom.equalTo(background).inset(screenWidth * (15/375))
+            $0.left.equalTo(background).inset(screenWidth * (16/375))
             $0.width.height.equalTo(screenWidth * (36/375))
         }
         
@@ -176,7 +177,7 @@ class UserListTVCell: UITableViewCell {
         accountNameLabel.lineBreakMode = .byTruncatingTail
         accountNameLabel.snp.makeConstraints {
             $0.left.equalTo(accountImage.snp.right).offset(screenWidth * (6/375))
-            $0.right.lessThanOrEqualTo(unreadView.snp.left).offset(screenWidth * (12/375))
+            $0.right.lessThanOrEqualTo(unreadView.snp.left).offset(-screenWidth * (12/375))
             $0.centerY.equalTo(accountImage)
         }
     }

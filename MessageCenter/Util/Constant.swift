@@ -25,6 +25,7 @@ var statusBarHeight: CGFloat {
     }
 }
 
+// MARK: - Firebase Cloud Message
 struct FCMKeys {
     static let messageId = "gcm.message_id"
 }
@@ -44,5 +45,11 @@ struct DeepLink {
     struct Values {
         static let route = "18"
         static let femaleGender = "2"
+    }
+}
+
+struct LoginParameter {
+    struct Values {
+        static let OSType = "2"
     }
 }

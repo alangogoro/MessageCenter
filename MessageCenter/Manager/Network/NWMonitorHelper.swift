@@ -38,7 +38,7 @@ class NWMonitorHelper {
         UIView.animate(withDuration: 0) { [toastView] in
             toastView.isHidden = false
             toastView.snp.updateConstraints {
-                $0.bottom.equalTo(view).offset(-screenWidth * (30/375))
+                $0.bottom.equalTo(view).offset(-screenWidth * (40/375))
             }
             view.layoutIfNeeded()
         }
